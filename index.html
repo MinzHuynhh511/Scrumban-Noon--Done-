@@ -1,0 +1,6013 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scrumban & Noon Done — 看板·日</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Caveat:wght@400;600;700&family=Patrick+Hand&family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+/* ══════════════════════════════════════════════════════════════
+   SCRUMBAN & NOON DONE — UNIFIED JAPANESE ZEN DARK THEME
+   ══════════════════════════════════════════════════════════════ */
+:root {
+  --bg-main: #18191f;
+  --bg-surface: #20222a;
+  --bg-elevated: #282a35;
+  --bg-card: #252732;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-medium: rgba(255, 255, 255, 0.14);
+  --border-highlight: rgba(196, 139, 72, 0.35);
+
+  --sumi: #121317;
+  --washi: #f6f3ea;
+  --text-primary: #edebe8;
+  --text-secondary: #a7a9b2;
+  --text-tertiary: #6f717d;
+
+  --hanko-red: #c9514e;
+  --sakura: #d9788f;
+  --matcha: #689f78;
+  --indigo: #5b82a6;
+  --fuji: #8e7ea3;
+  --amber: #c48b48;
+  --teal: #4b8b88;
+
+  --status-todo: #8b99ad;
+  --status-doing: #c99355;
+  --status-done: #5c9970;
+
+  --shadow-soft: 0 4px 18px rgba(0, 0, 0, 0.25);
+  --shadow-note: 0 6px 14px rgba(0, 0, 0, 0.16), 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-hover: 0 10px 24px rgba(0, 0, 0, 0.32);
+
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-full: 9999px;
+
+  --ease: all 0.25s cubic-bezier(0.2, 0.8, 0.2, 1);
+  --font-body: 'Be Vietnam Pro', 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-hand: 'Caveat', 'Patrick Hand', cursive;
+  --font-note: 'Patrick Hand', 'Be Vietnam Pro', cursive, sans-serif;
+  --font-kanji: 'Noto Serif JP', 'Be Vietnam Pro', serif;
+}
+
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--bg-main);
+  background-image: 
+    radial-gradient(ellipse at 15% 15%, rgba(91, 130, 166, 0.05) 0%, transparent 45%),
+    radial-gradient(ellipse at 85% 85%, rgba(196, 139, 72, 0.04) 0%, transparent 50%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.01) 0%, rgba(0, 0, 0, 0.03) 100%);
+  color: var(--text-primary);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ═══ HEADER ═══ */
+.app-header {
+  background: rgba(32, 34, 42, 0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 10px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  gap: 12px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.logo-kanji {
+  font-family: var(--font-kanji);
+  font-size: 1.35rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  background: linear-gradient(145deg, #c9514e, #9e3633);
+  color: #fff;
+  border-radius: var(--r-sm);
+  box-shadow: 0 2px 8px rgba(201, 81, 78, 0.35);
+  letter-spacing: 2px;
+}
+
+.logo-text h1 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.logo-text .subtitle {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  letter-spacing: 0.4px;
+  max-width: 320px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Main Nav Tabs */
+.main-nav {
+  display: flex;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-full);
+  padding: 3px;
+  gap: 3px;
+}
+
+.main-nav-btn {
+  padding: 6px 18px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: var(--r-full);
+  cursor: pointer;
+  transition: var(--ease);
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.main-nav-btn:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.main-nav-btn.active {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Header Right Controls */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.sprint-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  padding: 5px 12px;
+  border-radius: var(--r-full);
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.sprint-badge:hover {
+  border-color: var(--amber);
+}
+
+.sprint-badge strong, .sprint-badge #sprintName {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.sprint-days {
+  color: var(--amber);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.sprint-separator {
+  opacity: 0.4;
+}
+
+.btn-scrum-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--r-full);
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--ease);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-tertiary);
+}
+
+.btn-scrum-toggle .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #6f717d;
+  transition: var(--ease);
+}
+
+.btn-scrum-toggle.active {
+  background: rgba(196, 139, 72, 0.14);
+  border-color: rgba(196, 139, 72, 0.45);
+  color: var(--amber);
+  box-shadow: 0 1px 8px rgba(196, 139, 72, 0.18);
+}
+
+.btn-scrum-toggle.active .dot {
+  background: var(--amber);
+  box-shadow: 0 0 6px var(--amber);
+}
+
+.btn-header-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border-radius: var(--r-full);
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--ease);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.btn-header-action:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: var(--text-primary);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.lang-switch {
+  display: flex;
+  background: rgba(0, 0, 0, 0.28);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-full);
+  padding: 2px;
+  gap: 2px;
+}
+
+.lang-btn {
+  padding: 3px 8px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: var(--r-full);
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.lang-btn:hover {
+  color: var(--text-primary);
+}
+
+.lang-btn.active {
+  background: var(--bg-elevated);
+  color: #fff;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.stats {
+  display: flex;
+  gap: 5px;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.74rem;
+  padding: 4px 8px;
+  border-radius: var(--r-full);
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-secondary);
+}
+
+.stat strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.stat-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+}
+
+.todo-dot { background: var(--status-todo); }
+.doing-dot { background: var(--status-doing); }
+.done-dot { background: var(--status-done); }
+
+.btn-add {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 14px;
+  background: var(--hanko-red);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--ease);
+  box-shadow: 0 2px 10px rgba(201, 81, 78, 0.3);
+  white-space: nowrap;
+}
+
+.btn-add:hover {
+  background: #dc5956;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(201, 81, 78, 0.45);
+}
+
+/* ═══ POMODORO FLOATING TIMER ═══ */
+.pomodoro-float {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 95;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(32, 34, 42, 0.96);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--r-lg);
+  padding: 10px 18px;
+  box-shadow: var(--shadow-soft), 0 0 16px rgba(196, 139, 72, 0.15);
+  transition: var(--ease);
+}
+
+.pomodoro-float.hidden {
+  transform: translateY(90px) scale(0.9);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.pomo-time {
+  font-family: var(--font-hand);
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  min-width: 85px;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.pomo-label {
+  font-size: 0.68rem;
+  color: var(--amber);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.pomo-btns {
+  display: flex;
+  gap: 6px;
+}
+
+.pomo-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.88rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--ease);
+}
+
+.pomo-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: var(--text-primary);
+}
+
+.pomo-btn.active {
+  background: rgba(104, 159, 120, 0.2);
+  border-color: var(--matcha);
+  color: var(--matcha);
+}
+
+.pomo-toggle {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 94;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--border-medium);
+  background: rgba(32, 34, 42, 0.95);
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.25rem;
+  box-shadow: var(--shadow-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--ease);
+}
+
+.pomo-toggle:hover {
+  transform: scale(1.1) rotate(6deg);
+  border-color: var(--amber);
+}
+
+/* ═══ MAIN VIEWS CONTAINER ═══ */
+.view-container {
+  min-height: calc(100vh - 58px);
+}
+
+.app-view {
+  display: none;
+  animation: viewFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.app-view.active {
+  display: block;
+}
+
+@keyframes viewFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══ KANBAN VIEW ═══ */
+.kanban-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  padding: 22px;
+  align-items: start;
+}
+
+.kanban-layout.with-scrum {
+  grid-template-columns: minmax(0, 1.45fr) minmax(340px, 420px);
+}
+
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.column {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-md);
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 130px);
+  transition: var(--ease);
+}
+
+.column-header {
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.015);
+  position: relative;
+}
+
+.column-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.col-marker {
+  width: 4px;
+  height: 18px;
+  border-radius: 2px;
+}
+
+.todo-marker { background: var(--status-todo); }
+.doing-marker { background: var(--status-doing); }
+.done-marker { background: var(--status-done); }
+
+.column-title h2 {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.col-header-right {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wip-badge {
+  font-size: 0.68rem;
+  padding: 2px 6px;
+  border-radius: var(--r-sm);
+  background: rgba(196, 139, 72, 0.15);
+  color: var(--amber);
+  border: 1px solid rgba(196, 139, 72, 0.3);
+  font-weight: 600;
+}
+
+.wip-badge.warning {
+  background: rgba(201, 81, 78, 0.2);
+  color: var(--sakura);
+  border-color: rgba(201, 81, 78, 0.4);
+  animation: pulseWarning 2s infinite;
+}
+
+@keyframes pulseWarning {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
+}
+
+.task-count {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text-secondary);
+  min-width: 22px;
+  height: 22px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.task-list {
+  flex: 1;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-height: 220px;
+  overflow-y: auto;
+  transition: var(--ease);
+}
+
+.task-list.drag-over {
+  background: rgba(201, 147, 85, 0.05);
+  outline: 2px dashed rgba(201, 147, 85, 0.35);
+  outline-offset: -4px;
+  border-radius: var(--r-sm);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+.empty-kanji {
+  font-family: var(--font-kanji);
+  font-size: 2.2rem;
+  opacity: 0.35;
+  margin-bottom: 6px;
+  color: var(--text-secondary);
+}
+
+.empty-state p {
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.task-list:has(.sticky-note) .empty-state {
+  display: none;
+}
+
+/* Sticky Notes (Washi Paper) */
+.sticky-note {
+  position: relative;
+  padding: 14px 12px 10px;
+  border-radius: var(--r-sm);
+  box-shadow: var(--shadow-note);
+  cursor: grab;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  user-select: none;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  animation: noteFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: rotate(var(--rotation, 0deg));
+}
+
+@keyframes noteFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(var(--rotation, 0deg));
+  }
+}
+
+.sticky-note::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 44px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.55);
+  border-left: 2px dashed rgba(0, 0, 0, 0.1);
+  border-right: 2px dashed rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  opacity: 0.85;
+}
+
+.sticky-note:hover {
+  transform: rotate(0deg) translateY(-2px);
+  box-shadow: var(--shadow-hover);
+  z-index: 10;
+}
+
+.sticky-note:active {
+  cursor: grabbing;
+}
+
+.sticky-note.dragging {
+  opacity: 0.45;
+  transform: scale(0.96) rotate(3deg);
+}
+
+.note-actions {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: flex;
+  gap: 3px;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.sticky-note:hover .note-actions {
+  opacity: 1;
+}
+
+.note-actions button {
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.08);
+  color: #333;
+  cursor: pointer;
+  font-size: 0.72rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+}
+
+.note-actions button:hover {
+  background: rgba(0, 0, 0, 0.22);
+}
+
+.note-title {
+  font-family: var(--font-note);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #242220;
+  line-height: 1.3;
+  margin-bottom: 5px;
+  word-break: break-word;
+}
+
+.note-desc {
+  font-family: var(--font-note);
+  font-size: 0.98rem;
+  color: #4b4845;
+  line-height: 1.35;
+  margin-bottom: 8px;
+  word-break: break-word;
+  max-height: 60px;
+  overflow: hidden;
+}
+
+.note-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 7px;
+  border-top: 1px dashed rgba(0, 0, 0, 0.12);
+  font-family: var(--font-body);
+  font-size: 0.68rem;
+  color: #5d5955;
+}
+
+.note-tags {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.note-sp {
+  display: inline-flex;
+  align-items: center;
+  padding: 1px 5px;
+  border-radius: var(--r-sm);
+  background: rgba(0, 0, 0, 0.07);
+  color: #2e2b27;
+  font-weight: 700;
+  font-size: 0.66rem;
+}
+
+.note-priority {
+  display: inline-flex;
+  padding: 1px 5px;
+  border-radius: var(--r-sm);
+  font-weight: 600;
+  font-size: 0.63rem;
+}
+
+.priority-low { background: rgba(104, 159, 120, 0.2); color: #2e663e; }
+.priority-medium { background: rgba(196, 139, 72, 0.22); color: #82541a; }
+.priority-high { background: rgba(201, 81, 78, 0.22); color: #8f2b28; }
+
+.note-due {
+  font-size: 0.66rem;
+  color: #635f5a;
+  display: flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.note-due.overdue {
+  color: #a82926;
+  font-weight: 700;
+}
+
+[data-status="done"] .note-title {
+  text-decoration: line-through;
+  opacity: 0.75;
+}
+
+[data-status="done"] .sticky-note {
+  opacity: 0.9;
+}
+
+/* ═══ SCRUM PANEL (RIGHT) ═══ */
+.scrum-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-md);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: sticky;
+  top: 70px;
+  max-height: calc(100vh - 90px);
+  overflow-y: auto;
+}
+
+.scrum-tabs {
+  display: flex;
+  background: rgba(0, 0, 0, 0.22);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-sm);
+  padding: 3px;
+  gap: 3px;
+}
+
+.scrum-tab {
+  flex: 1;
+  padding: 6px 8px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.scrum-tab:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.scrum-tab.active {
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.scrum-content.hidden {
+  display: none;
+}
+
+.panel-section {
+  background: rgba(0, 0, 0, 0.12);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-sm);
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-header h3 {
+  font-size: 0.84rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.section-desc {
+  font-size: 0.73rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.btn-icon {
+  width: 24px;
+  height: 24px;
+  border: 1px solid var(--border-subtle);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text-secondary);
+  border-radius: var(--r-sm);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.78rem;
+  transition: var(--ease);
+}
+
+.btn-icon:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+/* Sprint Progress */
+.sprint-progress {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.progress-ring {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.progress-ring svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.progress-bg {
+  fill: none;
+  stroke: rgba(255, 255, 255, 0.08);
+  stroke-width: 8;
+}
+
+.progress-fill {
+  fill: none;
+  stroke: var(--matcha);
+  stroke-width: 8;
+  stroke-linecap: round;
+  stroke-dasharray: 264;
+  stroke-dashoffset: 264;
+  transition: stroke-dashoffset 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.progress-text {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.progress-percent {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.progress-label {
+  font-size: 0.6rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+}
+
+.sprint-meta {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.meta-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.meta-label {
+  font-size: 0.66rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.meta-value {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  line-height: 1.3;
+}
+
+.meta-value-big {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--amber);
+}
+
+.chart-container {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--r-sm);
+  padding: 6px;
+  display: flex;
+  justify-content: center;
+}
+
+#burndownChart {
+  width: 100%;
+  height: 150px;
+  display: block;
+}
+
+.standup-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.standup-item {
+  background: var(--bg-elevated);
+  border-left: 3px solid var(--teal);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
+  padding: 7px 9px;
+  font-size: 0.78rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.standup-text {
+  flex: 1;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
+.standup-date {
+  font-size: 0.66rem;
+  color: var(--text-tertiary);
+  margin-bottom: 2px;
+}
+
+.standup-delete {
+  opacity: 0.4;
+  cursor: pointer;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.72rem;
+  transition: opacity 0.2s;
+}
+
+.standup-delete:hover {
+  opacity: 1;
+  color: var(--hanko-red);
+}
+
+.empty-standup {
+  text-align: center;
+  padding: 20px 8px;
+  color: var(--text-tertiary);
+  font-size: 0.76rem;
+}
+
+.empty-standup span {
+  font-size: 1.2rem;
+  display: block;
+  margin-bottom: 4px;
+  opacity: 0.5;
+}
+
+.backlog-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.backlog-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-sm);
+  padding: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: var(--ease);
+}
+
+.backlog-card:hover {
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateX(2px);
+}
+
+.backlog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.backlog-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  line-height: 1.3;
+}
+
+.backlog-criteria {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  line-height: 1.35;
+}
+
+.backlog-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3px;
+  padding-top: 5px;
+  border-top: 1px dashed var(--border-subtle);
+}
+
+.btn-sprint-add {
+  padding: 3px 7px;
+  font-family: inherit;
+  font-size: 0.68rem;
+  font-weight: 600;
+  background: rgba(91, 130, 166, 0.2);
+  color: #92b7d8;
+  border: 1px solid rgba(91, 130, 166, 0.35);
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.btn-sprint-add:hover {
+  background: var(--indigo);
+  color: #fff;
+}
+
+/* Sprint History Cards */
+.history-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-sm);
+  padding: 9px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.history-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--amber);
+}
+
+.history-card-goal {
+  font-size: 0.73rem;
+  color: var(--text-secondary);
+}
+
+.history-card-stats {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--text-tertiary);
+  margin-top: 4px;
+}
+
+.history-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.history-progress-fill {
+  height: 100%;
+  background: var(--matcha);
+  border-radius: 2px;
+}
+
+.retro-column {
+  background: var(--bg-elevated);
+  border-radius: var(--r-sm);
+  padding: 9px;
+  margin-bottom: 8px;
+  border: 1px solid var(--border-subtle);
+}
+
+.retro-col-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+}
+
+.retro-good { border-left: 3px solid var(--matcha); }
+.retro-improve { border-left: 3px solid var(--amber); }
+.retro-action { border-left: 3px solid var(--teal); }
+
+.retro-items {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.retro-item {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 5px 7px;
+  border-radius: 4px;
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  line-height: 1.3;
+}
+
+.retro-item button {
+  opacity: 0.4;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.retro-item button:hover {
+  opacity: 1;
+  color: var(--hanko-red);
+}
+
+/* Kaizen Tips */
+.scrumban-tips-section {
+  background: linear-gradient(145deg, rgba(32, 34, 42, 0.95), rgba(40, 42, 53, 0.8));
+  border: 1px solid rgba(196, 139, 72, 0.25) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.scrumban-tips-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3.5px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--amber), var(--teal));
+}
+
+.tips-title-group {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tips-icon {
+  font-size: 1.1rem;
+  animation: gentleGlow 3s infinite ease-in-out;
+}
+
+@keyframes gentleGlow {
+  0%, 100% { opacity: 0.85; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+.tips-nav {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.tips-counter {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-tertiary);
+  min-width: 26px;
+  text-align: center;
+}
+
+.tips-nav-btn {
+  width: 22px;
+  height: 22px;
+  font-size: 0.72rem;
+  padding: 0;
+  border-radius: 4px;
+}
+
+.tip-card {
+  margin-top: 8px;
+  background: rgba(0, 0, 0, 0.22);
+  border-radius: var(--r-sm);
+  padding: 10px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: var(--ease);
+}
+
+.tip-card:hover {
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(196, 139, 72, 0.22);
+}
+
+.tip-heading {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--amber);
+  margin-bottom: 5px;
+  line-height: 1.3;
+  transition: opacity 0.2s;
+}
+
+.tip-body {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  line-height: 1.45;
+  transition: opacity 0.2s;
+}
+
+.tip-dots {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 8px;
+}
+
+.tip-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.tip-dot.active {
+  background: var(--amber);
+  width: 14px;
+  border-radius: 3px;
+}
+
+/* ═══ NOON DONE VIEW ═══ */
+.noon-container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+.noon-header {
+  text-align: center;
+  padding: 20px 16px 12px;
+}
+
+.noon-header h2 {
+  font-family: var(--font-hand);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.noon-header h2 span {
+  color: var(--amber);
+}
+
+.noon-subtitle {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  margin-top: 3px;
+}
+
+.noon-date {
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  color: var(--amber);
+  margin-top: 6px;
+}
+
+.noon-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 16px;
+  margin-bottom: 20px;
+}
+
+.noon-tab {
+  padding: 8px 20px;
+  border: none;
+  background: transparent;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  border-radius: 8px;
+  transition: var(--ease);
+}
+
+.noon-tab:hover {
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+}
+
+.noon-tab.active {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+.noon-page {
+  display: none;
+}
+
+.noon-page.active {
+  display: block;
+  animation: viewFadeIn 0.25s ease;
+}
+
+/* Noon Cards */
+.nd-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-md);
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow-soft);
+}
+
+.nd-card-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.nd-card-header .icon {
+  font-size: 1.2rem;
+}
+
+.nd-card-header h3 {
+  font-family: var(--font-hand);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* Dual Panel */
+.dual-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.nd-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.nd-panel-header {
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.nd-panel-header.morning { background: rgba(196, 139, 72, 0.12); }
+.nd-panel-header.afternoon { background: rgba(91, 130, 166, 0.12); }
+
+.nd-panel-header h3 {
+  font-family: var(--font-hand);
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.nd-panel-body {
+  padding: 14px 16px;
+  background-image: repeating-linear-gradient(
+    transparent,
+    transparent 31px,
+    rgba(255, 255, 255, 0.03) 31px,
+    rgba(255, 255, 255, 0.03) 32px
+  );
+  min-height: 200px;
+}
+
+.nd-todo-list {
+  list-style: none;
+}
+
+.nd-todo-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 5px 0;
+  line-height: 30px;
+  animation: viewFadeIn 0.2s ease;
+}
+
+.nd-todo-item input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border: 2px solid var(--border-medium);
+  border-radius: 50%;
+  cursor: pointer;
+  margin-top: 6px;
+  transition: var(--ease);
+  position: relative;
+}
+
+.nd-todo-item input[type="checkbox"]:checked {
+  background: var(--matcha);
+  border-color: var(--matcha);
+}
+
+.nd-todo-item input[type="checkbox"]:checked::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+}
+
+.nd-todo-item .todo-text {
+  flex: 1;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.nd-todo-item.done .todo-text {
+  text-decoration: line-through;
+  color: var(--text-tertiary);
+}
+
+.nd-todo-item .del-btn {
+  opacity: 0;
+  border: none;
+  background: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 3px;
+  transition: all 0.15s;
+  margin-top: 3px;
+}
+
+.nd-todo-item:hover .del-btn {
+  opacity: 1;
+}
+
+.nd-todo-item .del-btn:hover {
+  color: var(--hanko-red);
+}
+
+.nd-input-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.nd-input-row input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-primary);
+  transition: border-color 0.2s;
+}
+
+.nd-input-row input:focus {
+  outline: none;
+  border-color: var(--amber);
+}
+
+.nd-input-row input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.nd-input-row button {
+  padding: 8px 14px;
+  border: none;
+  background: var(--bg-elevated);
+  color: var(--text-primary);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--ease);
+  white-space: nowrap;
+  border: 1px solid var(--border-subtle);
+}
+
+.nd-input-row button:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Priority Section */
+.priority-section {
+  background: linear-gradient(135deg, rgba(196, 139, 72, 0.12), rgba(91, 130, 166, 0.12));
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-md);
+  padding: 18px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.priority-label {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: var(--text-tertiary);
+  margin-bottom: 5px;
+  font-weight: 600;
+}
+
+.priority-task {
+  font-family: var(--font-hand);
+  font-size: 1.55rem;
+  color: var(--text-primary);
+  min-height: 38px;
+}
+
+.priority-task.empty {
+  color: var(--text-tertiary);
+  font-style: italic;
+  font-size: 1.05rem;
+}
+
+.priority-input-row {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.priority-input-row input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-primary);
+}
+
+.priority-input-row input:focus {
+  outline: none;
+  border-color: var(--amber);
+}
+
+.priority-input-row button {
+  padding: 8px 14px;
+  border: none;
+  background: var(--amber);
+  color: white;
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Skill Section */
+.skill-today {
+  background: rgba(104, 159, 120, 0.1);
+  border: 1px dashed var(--matcha);
+  border-radius: var(--r-md);
+  padding: 18px;
+  text-align: center;
+  margin-bottom: 14px;
+}
+
+.skill-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--matcha);
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+.skill-name {
+  font-family: var(--font-hand);
+  font-size: 1.45rem;
+  color: var(--text-primary);
+}
+
+.skill-name.empty {
+  color: var(--text-tertiary);
+  font-style: italic;
+}
+
+.skill-done-btn {
+  margin-top: 10px;
+  padding: 7px 22px;
+  border: 2px solid var(--matcha);
+  background: transparent;
+  color: var(--matcha);
+  border-radius: 20px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.skill-done-btn:hover {
+  background: var(--matcha);
+  color: white;
+}
+
+.skill-done-btn.completed {
+  background: var(--matcha);
+  color: white;
+  pointer-events: none;
+}
+
+.streak-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  margin-top: 10px;
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+}
+
+.streak-fire { font-size: 1.1rem; }
+.streak-num { font-weight: 600; color: var(--amber); }
+
+.skill-calendar {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.skill-day {
+  width: 26px;
+  height: 26px;
+  border-radius: 5px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.62rem;
+  color: var(--text-tertiary);
+}
+
+.skill-day.done {
+  background: var(--matcha);
+  border-color: var(--matcha);
+  color: white;
+}
+
+.skill-day.today {
+  border-color: var(--amber);
+  border-width: 2px;
+}
+
+.suggestion-chip {
+  padding: 5px 12px;
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  border-radius: 20px;
+  font-family: var(--font-body);
+  font-size: 0.76rem;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.suggestion-chip:hover {
+  background: rgba(196, 139, 72, 0.12);
+  border-color: var(--amber);
+  color: var(--text-primary);
+}
+
+/* Week Review */
+.week-nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.week-nav button {
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  color: var(--text-secondary);
+  transition: var(--ease);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.week-nav button:hover {
+  background: rgba(196, 139, 72, 0.12);
+  border-color: var(--amber);
+}
+
+.week-nav .week-label {
+  font-family: var(--font-hand);
+  font-size: 1.25rem;
+  color: var(--text-primary);
+}
+
+.weekly-summary {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.summary-stat {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-md);
+  padding: 14px;
+  text-align: center;
+}
+
+.summary-stat .stat-num {
+  font-family: var(--font-hand);
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--amber);
+}
+
+.summary-stat .stat-label {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  margin-top: 2px;
+}
+
+.day-review {
+  border-left: 3px solid var(--border-subtle);
+  padding-left: 18px;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.day-review::before {
+  content: '';
+  position: absolute;
+  left: -7px;
+  top: 7px;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--amber);
+  border: 2px solid var(--bg-main);
+}
+
+.day-review .day-label {
+  font-family: var(--font-hand);
+  font-size: 1.15rem;
+  color: var(--amber);
+  margin-bottom: 5px;
+}
+
+.day-review .day-content {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.day-review .section-label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 7px;
+  margin-bottom: 3px;
+}
+
+.day-review ul {
+  list-style: none;
+  padding: 0;
+}
+
+.day-review li {
+  padding: 2px 0;
+  position: relative;
+  padding-left: 14px;
+}
+
+.day-review li::before {
+  content: '·';
+  position: absolute;
+  left: 4px;
+  color: var(--text-tertiary);
+  font-weight: bold;
+}
+
+.day-review li.done-item { color: var(--matcha); }
+.day-review li.undone-item { color: var(--text-tertiary); text-decoration: line-through; }
+
+.day-review .skill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  background: rgba(104, 159, 120, 0.15);
+  border-radius: 12px;
+  font-size: 0.72rem;
+  color: var(--matcha);
+  font-weight: 500;
+  margin-top: 5px;
+}
+
+.reflection-textarea {
+  width: 100%;
+  min-height: 90px;
+  padding: 12px;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  background: rgba(0, 0, 0, 0.2);
+  color: var(--text-primary);
+  resize: vertical;
+  line-height: 1.6;
+  transition: border-color 0.2s;
+}
+
+.reflection-textarea:focus {
+  outline: none;
+  border-color: var(--amber);
+}
+
+.reflection-textarea::placeholder {
+  color: var(--text-tertiary);
+}
+
+.info-tip {
+  font-size: 0.76rem;
+  color: var(--text-tertiary);
+  font-style: italic;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: var(--bg-surface);
+  border-radius: 8px;
+  border-left: 3px solid var(--amber);
+}
+
+.quote-bar {
+  text-align: center;
+  padding: 14px 16px;
+  font-style: italic;
+  color: var(--text-tertiary);
+  font-size: 0.78rem;
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 24px;
+}
+
+.btn-send-kanban {
+  margin-top: 8px;
+  padding: 6px 14px;
+  background: rgba(91, 130, 166, 0.15);
+  border: 1px solid rgba(91, 130, 166, 0.3);
+  color: var(--indigo);
+  border-radius: var(--r-sm);
+  font-family: inherit;
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-send-kanban:hover {
+  background: var(--indigo);
+  color: #fff;
+}
+
+/* ═══ DASHBOARD VIEW ═══ */
+.dash-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+.dash-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.dash-header h2 {
+  font-family: var(--font-hand);
+  font-size: 2.1rem;
+  color: var(--text-primary);
+}
+
+.dash-header p {
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.dash-stat {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-md);
+  padding: 18px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.dash-stat .num {
+  font-family: var(--font-hand);
+  font-size: 2.3rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.dash-stat .label {
+  font-size: 0.74rem;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.dash-charts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.dash-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-md);
+  padding: 18px;
+}
+
+.dash-card h3 {
+  font-family: var(--font-hand);
+  font-size: 1.35rem;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ═══ MODALS ═══ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 15, 18, 0.78);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.25s ease;
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.modal {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--r-md);
+  padding: 22px;
+  width: 90%;
+  max-width: 480px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.48);
+  transform: translateY(16px) scale(0.97);
+  transition: var(--ease);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-overlay.active .modal {
+  transform: translateY(0) scale(1);
+}
+
+.modal-small {
+  max-width: 360px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.modal-header h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.btn-close {
+  width: 26px;
+  height: 26px;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-secondary);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  transition: var(--ease);
+}
+
+.btn-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+}
+
+.form-group {
+  margin-bottom: 12px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+label {
+  display: block;
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 5px;
+}
+
+.required {
+  color: var(--hanko-red);
+}
+
+input[type="text"], input[type="date"], input[type="number"], textarea, select {
+  width: 100%;
+  padding: 8px 10px;
+  background: rgba(0, 0, 0, 0.25);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-sm);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.82rem;
+  outline: none;
+  transition: var(--ease);
+}
+
+input[type="text"]:focus, input[type="date"]:focus, input[type="number"]:focus, textarea:focus, select:focus {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px rgba(196, 139, 72, 0.15);
+}
+
+textarea {
+  resize: vertical;
+}
+
+select option {
+  background: var(--bg-surface);
+  color: var(--text-primary);
+}
+
+.color-picker {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 3px 0;
+}
+
+.color-option {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  border: 1.5px solid rgba(0, 0, 0, 0.2);
+  transition: var(--ease);
+  position: relative;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.color-option:hover {
+  transform: scale(1.1);
+}
+
+.color-option.selected {
+  border-color: #fff;
+  transform: scale(1.13);
+  box-shadow: 0 0 0 2.5px var(--amber), 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.color-option.selected::after {
+  content: '✓';
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #242220;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.btn-cancel {
+  padding: 7px 16px;
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-sm);
+  font-family: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.btn-cancel:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.btn-save {
+  padding: 7px 18px;
+  background: var(--matcha);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.btn-save:hover {
+  background: #76af86;
+}
+
+.btn-delete {
+  padding: 7px 16px;
+  background: var(--hanko-red);
+  color: #fff;
+  border: none;
+  border-radius: var(--r-sm);
+  font-family: inherit;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.btn-delete:hover {
+  background: #db5956;
+}
+
+.delete-msg {
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+/* Toast */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.toast {
+  padding: 9px 16px;
+  border-radius: var(--r-sm);
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-medium);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  animation: toastIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.toast.toast-out {
+  animation: toastOut 0.25s ease forwards;
+}
+
+.toast-success { border-left: 3px solid var(--matcha); }
+.toast-info { border-left: 3px solid var(--indigo); }
+.toast-warning { border-left: 3px solid var(--amber); }
+.toast-error { border-left: 3px solid var(--hanko-red); }
+
+@keyframes toastIn {
+  0% { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toastOut {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(16px); }
+}
+
+/* Quick Search Overlay */
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 15, 18, 0.65);
+  backdrop-filter: blur(5px);
+  z-index: 1100;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 14vh;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.2s;
+}
+
+.search-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.search-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-medium);
+  border-radius: var(--r-md);
+  width: 90%;
+  max-width: 540px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.55);
+  overflow: hidden;
+}
+
+.search-input {
+  width: 100%;
+  padding: 16px 18px;
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 1rem;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+.search-results {
+  max-height: 320px;
+  overflow-y: auto;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.search-item {
+  padding: 10px 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: background 0.15s;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+
+.search-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.search-item .search-type {
+  font-size: 0.68rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.07);
+  color: var(--text-tertiary);
+  font-weight: 600;
+}
+
+.search-hint {
+  padding: 14px 18px;
+  font-size: 0.78rem;
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+/* Shortcuts Cheat Sheet Modal */
+.shortcuts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.shortcut-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 0;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.shortcut-key {
+  padding: 3px 8px;
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid var(--border-subtle);
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: monospace;
+}
+
+/* Settings Sections */
+.settings-section-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--amber);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 14px 0 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px dashed var(--border-subtle);
+}
+
+.settings-btn-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.btn-secondary {
+  padding: 7px 14px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-secondary);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--r-sm);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--ease);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+}
+
+/* Interactive Onboarding Tour */
+.tour-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(12, 13, 17, 0.65);
+  backdrop-filter: blur(2px);
+  z-index: 3000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+body.tour-active .tour-backdrop {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.tour-spotlight {
+  position: fixed;
+  z-index: 3001;
+  border-radius: var(--r-md);
+  box-shadow: 0 0 0 9999px rgba(12, 13, 17, 0.78), 0 0 20px rgba(196, 139, 72, 0.45);
+  border: 2px solid var(--amber);
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+body.tour-active .tour-spotlight {
+  opacity: 1;
+}
+
+.tour-popover {
+  position: fixed;
+  z-index: 3002;
+  background: var(--bg-surface);
+  border: 1px solid rgba(196, 139, 72, 0.45);
+  border-radius: var(--r-md);
+  padding: 18px 20px;
+  width: 360px;
+  max-width: 90vw;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65), 0 0 12px rgba(196, 139, 72, 0.15);
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+body.tour-active .tour-popover {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.tour-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.tour-step-badge {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(196, 139, 72, 0.18);
+  color: var(--amber);
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: var(--r-sm);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tour-btn-close {
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  font-size: 0.85rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.tour-btn-close:hover {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.tour-title {
+  font-size: 1.02rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tour-desc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  margin-bottom: 16px;
+}
+
+.tour-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.tour-btn-skip {
+  background: transparent;
+  border: none;
+  color: var(--text-tertiary);
+  font-family: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.tour-btn-skip:hover {
+  color: var(--text-secondary);
+  text-decoration: underline;
+}
+
+.tour-actions-right {
+  display: flex;
+  gap: 8px;
+}
+
+.tour-btn-prev {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: var(--ease);
+}
+
+.tour-btn-prev:hover {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.tour-btn-next {
+  background: var(--matcha);
+  border: none;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 6px 15px;
+  border-radius: var(--r-sm);
+  cursor: pointer;
+  transition: var(--ease);
+  box-shadow: 0 2px 8px rgba(104, 159, 120, 0.35);
+}
+
+.tour-btn-next:hover {
+  background: #76af86;
+  transform: translateY(-1px);
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+  .kanban-layout.with-scrum {
+    grid-template-columns: 1fr;
+  }
+  .scrum-panel {
+    position: static;
+    max-height: unset;
+  }
+}
+
+@media (max-width: 860px) {
+  .app-header {
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 10px 14px;
+  }
+  .kanban-board {
+    grid-template-columns: 1fr;
+  }
+  .column {
+    min-height: 250px;
+  }
+  .form-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+  .dual-panel {
+    grid-template-columns: 1fr;
+  }
+  .weekly-summary {
+    grid-template-columns: 1fr;
+  }
+  .dash-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .dash-charts {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-right .stats { display: none; }
+  .header-right .sprint-badge { display: none; }
+  .header-right .btn-search-trigger { display: none; }
+}
+  </style>
+</head>
+<body>
+
+  <!-- ═══════ HEADER ═══════ -->
+  <header class="app-header">
+    <div class="header-left">
+      <div class="logo" onclick="switchView('kanban')" title="Scrumban & Noon Done">
+        <span class="logo-kanji">看板·日</span>
+        <div class="logo-text">
+          <h1>Scrumban & Noon Done</h1>
+          <p class="subtitle" id="headerSubtitle" data-i18n="appSubtitle">アジャイル · Agile Productivity</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main View Switcher -->
+    <nav class="main-nav" id="mainNav">
+      <button class="main-nav-btn active" data-view="kanban" onclick="switchView('kanban')">
+        <span>📋</span> <span data-i18n="navKanban">Kanban</span>
+      </button>
+      <button class="main-nav-btn" data-view="noon" onclick="switchView('noon')">
+        <span>☀️</span> <span data-i18n="navNoon">Noon Done</span>
+      </button>
+      <button class="main-nav-btn" data-view="dashboard" onclick="switchView('dashboard')">
+        <span>📊</span> <span data-i18n="navDash">Dashboard</span>
+      </button>
+    </nav>
+
+    <!-- Header Right Controls -->
+    <div class="header-right">
+      <div class="sprint-badge" id="sprintBadge" onclick="openSprintModal()" title="Cấu hình Sprint">
+        <span>🏃</span>
+        <span id="sprintName">Sprint 1</span>
+        <span class="sprint-separator">·</span>
+        <span id="sprintDays" class="sprint-days">14 ngày còn lại</span>
+      </div>
+
+      <button class="btn-scrum-toggle active" id="btnScrumToggle" onclick="toggleScrumMode()" title="Bật / Tắt Scrum">
+        <span class="dot"></span>
+        <span id="scrumToggleText">⚡ Scrum: Bật</span>
+      </button>
+
+      <!-- Search Trigger -->
+      <button class="btn-header-action btn-search-trigger" onclick="openSearch()" title="Tìm kiếm (Ctrl+K)">
+        <span>🔍</span> <span style="font-size:0.7rem;opacity:0.7">Ctrl+K</span>
+      </button>
+
+      <!-- Tour Button -->
+      <button class="btn-header-action" id="btnStartTour" onclick="startOnboardingTour()" title="Hướng dẫn sử dụng">
+        <span>❓</span> <span data-i18n="btnGuide">Hướng dẫn</span>
+      </button>
+
+      <!-- Settings Button -->
+      <button class="btn-header-action" id="btnOpenSettings" onclick="openSettingsModal()" title="Cài đặt & Sao lưu">
+        <span>⚙️</span>
+      </button>
+
+      <!-- Language Switcher -->
+      <div class="lang-switch" id="langSwitch" title="Chuyển ngôn ngữ / Change language">
+        <button class="lang-btn active" data-lang="vi" onclick="setLanguage('vi')">VI</button>
+        <button class="lang-btn" data-lang="en" onclick="setLanguage('en')">EN</button>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="stats" title="Số lượng công việc To Do / Doing / Done">
+        <span class="stat" title="To Do"><span class="stat-dot todo-dot"></span><strong id="statTodo">0</strong></span>
+        <span class="stat" title="Doing"><span class="stat-dot doing-dot"></span><strong id="statDoing">0</strong></span>
+        <span class="stat" title="Done"><span class="stat-dot done-dot"></span><strong id="statDone">0</strong></span>
+      </div>
+
+      <!-- Add Task Button -->
+      <button class="btn-add" id="btnOpenModal" onclick="openTaskModal()" title="Thêm việc mới (Ctrl+N)">
+        <span>＋</span> <span data-i18n="btnAddTask">Thêm việc</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ═══════ VIEWS CONTAINER ═══════ -->
+  <div class="view-container">
+
+    <!-- ══════ VIEW: KANBAN ══════ -->
+    <div class="app-view active" id="view-kanban">
+      <div class="kanban-layout with-scrum" id="kanbanLayout">
+        <!-- 3 Columns Kanban Board -->
+        <section class="kanban-board" id="kanbanBoard">
+          <!-- TO DO -->
+          <div class="column" data-status="todo" id="colTodo">
+            <div class="column-header">
+              <div class="column-title">
+                <span class="col-marker todo-marker"></span>
+                <h2 data-i18n="colTodoTitle">待機 · Cần làm</h2>
+              </div>
+              <div class="col-header-right">
+                <span class="task-count" id="count-todo">0</span>
+              </div>
+            </div>
+            <div class="task-list" id="todo-list"
+                 ondrop="handleDrop(event)"
+                 ondragover="handleDragOver(event)"
+                 ondragleave="handleDragLeave(event)">
+              <div class="empty-state">
+                <span class="empty-kanji">空</span>
+                <p data-i18n="emptyTodo">Kéo thả sticky note vào đây</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- DOING -->
+          <div class="column" data-status="doing" id="colDoing">
+            <div class="column-header">
+              <div class="column-title">
+                <span class="col-marker doing-marker"></span>
+                <h2 data-i18n="colDoingTitle">進行 · Đang làm</h2>
+              </div>
+              <div class="col-header-right">
+                <span class="wip-badge" id="wipBadge">WIP: 0/3</span>
+                <span class="task-count" id="count-doing">0</span>
+              </div>
+            </div>
+            <div class="task-list" id="doing-list"
+                 ondrop="handleDrop(event)"
+                 ondragover="handleDragOver(event)"
+                 ondragleave="handleDragLeave(event)">
+              <div class="empty-state">
+                <span class="empty-kanji">動</span>
+                <p data-i18n="emptyDoing">Đang thực hiện</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- DONE -->
+          <div class="column" data-status="done" id="colDone">
+            <div class="column-header">
+              <div class="column-title">
+                <span class="col-marker done-marker"></span>
+                <h2 data-i18n="colDoneTitle">完了 · Hoàn thành</h2>
+              </div>
+              <div class="col-header-right">
+                <span class="task-count" id="count-done">0</span>
+              </div>
+            </div>
+            <div class="task-list" id="done-list"
+                 ondrop="handleDrop(event)"
+                 ondragover="handleDragOver(event)"
+                 ondragleave="handleDragLeave(event)">
+              <div class="empty-state">
+                <span class="empty-kanji">達</span>
+                <p data-i18n="emptyDone">Đã hoàn thành</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- SCRUM PANEL (RIGHT) -->
+        <aside class="scrum-panel" id="scrumPanel">
+          <div class="scrum-tabs">
+            <button class="scrum-tab active" data-tab="sprint" onclick="switchScrumTab('sprint')">🏃 Sprint</button>
+            <button class="scrum-tab" data-tab="backlog" onclick="switchScrumTab('backlog')">📦 Backlog</button>
+            <button class="scrum-tab" data-tab="retro" onclick="switchScrumTab('retro')">🔄 Retro</button>
+          </div>
+
+          <!-- TAB: SPRINT -->
+          <div class="scrum-content" id="tab-sprint">
+            <div class="panel-section">
+              <div class="section-header">
+                <h3 data-i18n="sprintCurrentTitle">スプリント · Sprint hiện tại</h3>
+                <button class="btn-icon" onclick="openSprintModal()" title="Cấu hình Sprint">⚙️</button>
+              </div>
+              <div class="sprint-progress">
+                <div class="progress-ring">
+                  <svg viewBox="0 0 100 100">
+                    <circle class="progress-bg" cx="50" cy="50" r="42"/>
+                    <circle class="progress-fill" cx="50" cy="50" r="42" id="progressCircle"/>
+                  </svg>
+                  <div class="progress-text">
+                    <span class="progress-percent" id="progressPercent">0%</span>
+                    <span class="progress-label" data-i18n="labelCompleted">hoàn thành</span>
+                  </div>
+                </div>
+                <div class="sprint-meta">
+                  <div class="meta-item">
+                    <span class="meta-label" data-i18n="labelGoal">Mục tiêu</span>
+                    <p class="meta-value" id="sprintGoalDisplay">Chưa đặt mục tiêu</p>
+                  </div>
+                  <div class="meta-row">
+                    <div class="meta-item">
+                      <span class="meta-label">Story Points</span>
+                      <span class="meta-value-big" id="sprintPoints">0 / 0 SP</span>
+                    </div>
+                    <div class="meta-item">
+                      <span class="meta-label">Velocity</span>
+                      <span class="meta-value-big" id="sprintVelocity">— SP</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Burndown Chart -->
+            <div class="panel-section">
+              <div class="section-header">
+                <h3 data-i18n="burndownTitle">バーンダウン · Burndown</h3>
+              </div>
+              <div class="chart-container">
+                <canvas id="burndownChart" width="380" height="150"></canvas>
+              </div>
+            </div>
+
+            <!-- Daily Standup -->
+            <div class="panel-section">
+              <div class="section-header">
+                <h3 data-i18n="standupTitle">朝会 · Daily Standup</h3>
+                <button class="btn-icon" onclick="addStandupNote()" title="Ghi chú standup">＋</button>
+              </div>
+              <div class="standup-list" id="standupList">
+                <div class="empty-standup">
+                  <span>📝</span>
+                  <p data-i18n="emptyStandup">Nhấn ＋ để ghi chú standup hàng ngày</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Kaizen Tips Carousel -->
+            <div class="panel-section scrumban-tips-section" id="scrumbanTipsSection">
+              <div class="section-header">
+                <div class="tips-title-group">
+                  <span class="tips-icon">💡</span>
+                  <h3 data-i18n="tipsSectionTitle">Mẹo Scrumban & Kaizen</h3>
+                </div>
+                <div class="tips-nav">
+                  <button type="button" class="btn-icon tips-nav-btn" onclick="prevTip()" title="Gợi ý trước">⟨</button>
+                  <span class="tips-counter" id="tipCounter">1/8</span>
+                  <button type="button" class="btn-icon tips-nav-btn" onclick="nextTip()" title="Gợi ý tiếp theo">⟩</button>
+                  <button type="button" class="btn-icon tips-nav-btn" id="btnToggleTipAuto" onclick="toggleTipAutoPlay()" title="Tạm dừng / Tiếp tục tự động chuyển">⏸️</button>
+                </div>
+              </div>
+              <div class="tip-card" id="tipCard" onmouseenter="pauseTipAutoPlay()" onmouseleave="resumeTipAutoPlay()">
+                <div class="tip-content">
+                  <h4 class="tip-heading" id="tipHeading">Quy tắc "Stop Starting, Start Finishing"</h4>
+                  <p class="tip-body" id="tipBody">Đừng vội nhận thêm việc mới vào cột Doing khi bạn chưa hoàn thành việc cũ.</p>
+                </div>
+                <div class="tip-dots" id="tipDots"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB: PRODUCT BACKLOG -->
+          <div class="scrum-content hidden" id="tab-backlog">
+            <div class="panel-section">
+              <div class="section-header">
+                <h3 data-i18n="backlogTitle">バックログ · Product Backlog</h3>
+                <button class="btn-icon" onclick="addBacklogItem()" title="Thêm backlog item">＋</button>
+              </div>
+              <p class="section-desc" data-i18n="backlogDesc">User Stories chưa vào Sprint. Bấm "Đưa vào Sprint" để bắt đầu thực hiện.</p>
+              <div class="backlog-list" id="backlogList">
+                <div class="empty-standup">
+                  <span>📦</span>
+                  <p data-i18n="emptyBacklog">Backlog trống. Nhấn ＋ để thêm.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Sprint History -->
+            <div class="panel-section">
+              <div class="section-header">
+                <h3 data-i18n="historyTitle">歴史 · Sprint History</h3>
+              </div>
+              <div id="sprintHistoryContainer">
+                <div class="empty-standup">
+                  <span>📊</span>
+                  <p data-i18n="emptyHistory">Chưa có Sprint nào hoàn thành</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- TAB: RETROSPECTIVE -->
+          <div class="scrum-content hidden" id="tab-retro">
+            <div class="panel-section">
+              <div class="section-header">
+                <h3 data-i18n="retroTitle">振り返り · Retrospective</h3>
+              </div>
+              <p class="section-desc" data-i18n="retroDesc">Nhìn lại Sprint — điều gì tốt, điều gì cần cải thiện?</p>
+
+              <!-- Good -->
+              <div class="retro-column retro-good">
+                <div class="retro-col-header">
+                  <span data-i18n="retroGoodHeader">🌸 Tốt — うまくいったこと</span>
+                  <button class="btn-icon" onclick="addRetroItem('good')">＋</button>
+                </div>
+                <div class="retro-items" id="retroGood"></div>
+              </div>
+
+              <!-- Improve -->
+              <div class="retro-column retro-improve">
+                <div class="retro-col-header">
+                  <span data-i18n="retroImproveHeader">🍂 Cải thiện — 改善すべきこと</span>
+                  <button class="btn-icon" onclick="addRetroItem('improve')">＋</button>
+                </div>
+                <div class="retro-items" id="retroImprove"></div>
+              </div>
+
+              <!-- Action -->
+              <div class="retro-column retro-action">
+                <div class="retro-col-header">
+                  <span data-i18n="retroActionHeader">🎋 Hành động — アクション</span>
+                  <button class="btn-icon" onclick="addRetroItem('action')">＋</button>
+                </div>
+                <div class="retro-items" id="retroAction"></div>
+              </div>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+
+    <!-- ══════ VIEW: NOON DONE ══════ -->
+    <div class="app-view" id="view-noon">
+      <div class="noon-container">
+        <div class="noon-header">
+          <h2>Noon<span>?</span> Done!</h2>
+          <div class="noon-subtitle" id="noonGreeting">Buổi trưa nhìn lại — buổi chiều làm đúng</div>
+          <div class="noon-date" id="dateDisplay"></div>
+        </div>
+
+        <nav class="noon-tabs">
+          <button class="noon-tab active" data-page="daily" onclick="switchNoonPage('daily')">
+            <span>📝</span> <span data-i18n="noonTabDaily">Hôm nay</span>
+          </button>
+          <button class="noon-tab" data-page="skills" onclick="switchNoonPage('skills')">
+            <span>🌱</span> <span data-i18n="noonTabSkills">Kỹ năng</span>
+          </button>
+          <button class="noon-tab" data-page="review" onclick="switchNoonPage('review')">
+            <span>📖</span> <span data-i18n="noonTabReview">Tuần qua</span>
+          </button>
+        </nav>
+
+        <!-- NOON DONE: DAILY -->
+        <section class="noon-page active" id="npage-daily">
+          <!-- Priority of the afternoon -->
+          <div class="priority-section" id="prioritySection">
+            <div class="priority-label" data-i18n="noonPriorityLabel">⭐ Việc quan trọng nhất chiều nay</div>
+            <div class="priority-task" id="priorityTask">
+              <span class="empty">Chưa chọn — hãy quyết định 1 việc thôi!</span>
+            </div>
+            <div class="priority-input-row" id="priorityInputRow">
+              <input type="text" id="priorityInput" placeholder="Gõ việc quan trọng nhất..." onkeydown="if(event.key==='Enter') setPriority()">
+              <button onclick="setPriority()" data-i18n="btnSelect">Chọn</button>
+            </div>
+          </div>
+
+          <!-- Dual Panel: Morning & Afternoon -->
+          <div class="dual-panel">
+            <!-- Morning Panel -->
+            <div class="nd-panel">
+              <div class="nd-panel-header morning">
+                <span>☀️</span>
+                <h3 data-i18n="noonMorningTitle">Sáng nay đã làm</h3>
+              </div>
+              <div class="nd-panel-body">
+                <ul class="nd-todo-list" id="morningList"></ul>
+                <div class="nd-input-row">
+                  <input type="text" id="morningInput" placeholder="Sáng đã làm gì..." onkeydown="if(event.key==='Enter') addNoonTodo('morning')">
+                  <button onclick="addNoonTodo('morning')">+ Thêm</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Afternoon Panel -->
+            <div class="nd-panel">
+              <div class="nd-panel-header afternoon">
+                <span>🌤️</span>
+                <h3 data-i18n="noonAfternoonTitle">Chiều nay cần làm</h3>
+              </div>
+              <div class="nd-panel-body">
+                <ul class="nd-todo-list" id="afternoonList"></ul>
+                <div class="nd-input-row">
+                  <input type="text" id="afternoonInput" placeholder="Chiều cần làm gì..." onkeydown="if(event.key==='Enter') addNoonTodo('afternoon')">
+                  <button onclick="addNoonTodo('afternoon')">+ Thêm</button>
+                </div>
+                <!-- Cross Integration Button -->
+                <button class="btn-send-kanban" onclick="sendAfternoonToKanban()" title="Gửi các việc chiều chưa xong sang cột To Do của Kanban">
+                  <span>📋</span> <span data-i18n="btnSendToKanban">Gửi việc chiều sang Kanban</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-tip" data-i18n="noonDailyTip">
+            💡 Mỗi buổi trưa, ghi lại sáng làm được gì → chọn 1 việc quan trọng nhất cho chiều → buổi tối xem lại kết quả.
+          </div>
+
+          <div class="quote-bar" id="quoteBar"></div>
+        </section>
+
+        <!-- NOON DONE: SKILLS -->
+        <section class="noon-page" id="npage-skills">
+          <div class="nd-card">
+            <div class="nd-card-header">
+              <span class="icon">🌱</span>
+              <h3 data-i18n="noonSkillCardTitle">Học kỹ năng mỗi ngày</h3>
+            </div>
+
+            <div class="skill-today" id="skillToday">
+              <div class="skill-label" data-i18n="noonSkillTodayLabel">Hôm nay học gì?</div>
+              <div class="skill-name" id="skillName">
+                <span class="empty">Chưa chọn bài học hôm nay</span>
+              </div>
+              <button class="skill-done-btn" id="skillDoneBtn" onclick="markSkillDone()" style="display:none">
+                ✓ Đã hoàn thành
+              </button>
+              <div class="streak-display" id="streakDisplay" style="display:none">
+                <span class="streak-fire">🔥</span>
+                <span>Chuỗi: <span class="streak-num" id="streakNum">0</span> ngày liên tục</span>
+              </div>
+            </div>
+
+            <div class="nd-input-row" id="skillInputRow">
+              <input type="text" id="skillInput" placeholder="VD: Học 15 từ vựng tiếng Nhật, Xem 1 video coding..." onkeydown="if(event.key==='Enter') setSkill()">
+              <button onclick="setSkill()" data-i18n="btnSetSkill">Đặt bài học</button>
+            </div>
+
+            <!-- Quick Suggestions -->
+            <div style="margin-top:16px">
+              <div style="font-size:0.72rem;color:var(--text-tertiary);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px" data-i18n="labelQuickSuggestions">
+                Gợi ý nhanh
+              </div>
+              <div style="display:flex;flex-wrap:wrap;gap:6px">
+                <button class="suggestion-chip" onclick="quickSkill('Học 15 từ vựng tiếng Nhật')">🇯🇵 15 từ tiếng Nhật</button>
+                <button class="suggestion-chip" onclick="quickSkill('Xem 1 video tiếng Anh')">🇬🇧 1 video tiếng Anh</button>
+                <button class="suggestion-chip" onclick="quickSkill('Đọc 10 trang sách')">📚 Đọc 10 trang sách</button>
+                <button class="suggestion-chip" onclick="quickSkill('Giải 1 bài tập coding')">💻 1 bài coding</button>
+                <button class="suggestion-chip" onclick="quickSkill('Tập thiền 5 phút')">🧘 Thiền 5 phút</button>
+                <button class="suggestion-chip" onclick="quickSkill('Viết nhật ký biết ơn')">✍️ Nhật ký biết ơn</button>
+              </div>
+            </div>
+
+            <!-- 30 Days Heatmap Calendar -->
+            <div style="margin-top:18px">
+              <h4 style="font-size:0.8rem;color:var(--text-secondary);margin-bottom:8px" data-i18n="label30Days">30 ngày qua</h4>
+              <div class="skill-calendar" id="skillCalendar"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- NOON DONE: REVIEW -->
+        <section class="noon-page" id="npage-review">
+          <div class="week-nav">
+            <button onclick="changeWeek(-1)">‹</button>
+            <span class="week-label" id="weekLabel"></span>
+            <button onclick="changeWeek(1)">›</button>
+          </div>
+
+          <div class="weekly-summary">
+            <div class="summary-stat">
+              <div class="stat-num" id="nStatDone">0</div>
+              <div class="stat-label" data-i18n="labelTasksDone">Việc đã hoàn thành</div>
+            </div>
+            <div class="summary-stat">
+              <div class="stat-num" id="nStatSkill">0</div>
+              <div class="stat-label" data-i18n="labelSkillDays">Ngày học kỹ năng</div>
+            </div>
+            <div class="summary-stat">
+              <div class="stat-num" id="nStatActive">0</div>
+              <div class="stat-label" data-i18n="labelActiveDays">Ngày có ghi chú</div>
+            </div>
+          </div>
+
+          <!-- Day-by-day timeline -->
+          <div id="weekTimeline"></div>
+
+          <!-- Weekly Reflection -->
+          <div style="margin-top:22px">
+            <h3 style="font-family:var(--font-hand);font-size:1.3rem;color:var(--text-primary);margin-bottom:8px">
+              ✍️ <span data-i18n="labelWeeklyReflection">Nhìn lại tuần này</span>
+            </h3>
+            <textarea class="reflection-textarea" id="reflectionText"
+                      placeholder="Tuần này bạn thấy mình thế nào? Có đang tiến bộ hay chỉ đang bận? Viết gì cũng được..."
+                      oninput="saveReflection()"></textarea>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <!-- ══════ VIEW: DASHBOARD ══════ -->
+    <div class="app-view" id="view-dashboard">
+      <div class="dash-container">
+        <div class="dash-header">
+          <h2 data-i18n="dashTitle">📊 Tổng quan năng suất & Tiến độ</h2>
+          <p data-i18n="dashSubtitle">Kết hợp phân tích dữ liệu thông minh từ Kanban và Noon Done</p>
+        </div>
+
+        <!-- 4 Top Cards -->
+        <div class="dash-grid">
+          <div class="dash-stat">
+            <div class="num" id="dTotalTasks" style="color:var(--amber)">0</div>
+            <div class="label" data-i18n="labelTotalKanban">Kanban Tasks</div>
+          </div>
+          <div class="dash-stat">
+            <div class="num" id="dDoneTasks" style="color:var(--matcha)">0</div>
+            <div class="label" data-i18n="labelCompletedKanban">Đã hoàn thành</div>
+          </div>
+          <div class="dash-stat">
+            <div class="num" id="dSkillStreak" style="color:var(--hanko-red)">0</div>
+            <div class="label" data-i18n="labelSkillStreak">🔥 Chuỗi học Kỹ năng</div>
+          </div>
+          <div class="dash-stat">
+            <div class="num" id="dTotalSP" style="color:var(--indigo)">0</div>
+            <div class="label" data-i18n="labelPointsDone">Story Points Done</div>
+          </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="dash-charts">
+          <!-- 7-day Activity Chart -->
+          <div class="dash-card">
+            <h3>📈 <span data-i18n="dashActivityTitle">Hoạt động 7 ngày qua</span></h3>
+            <div style="width:100%;background:rgba(0,0,0,0.2);border-radius:var(--r-sm);padding:8px">
+              <canvas id="weeklyChart" width="460" height="170"></canvas>
+            </div>
+            <p style="font-size:0.74rem;color:var(--text-tertiary);margin-top:8px" data-i18n="dashChartDesc">
+              Biểu đồ tổng hợp các công việc hoàn thành mỗi ngày từ cả 2 ứng dụng.
+            </p>
+          </div>
+
+          <!-- 30-day Skills Calendar -->
+          <div class="dash-card">
+            <h3>🌱 <span data-i18n="dashSkillCalTitle">Thói quen kỹ năng (30 ngày)</span></h3>
+            <div class="skill-calendar" id="dashSkillCal"></div>
+            <div style="margin-top:14px;text-align:center" id="dashStreakInfo"></div>
+            <div style="margin-top:12px;display:flex;justify-content:center;gap:10px">
+              <button class="btn-secondary" onclick="switchView('noon'); switchNoonPage('skills')">
+                🌱 Mở trang Kỹ năng
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sprint & Kaizen Advice -->
+        <div class="dash-charts">
+          <!-- Sprint Progress Card -->
+          <div class="dash-card">
+            <h3>🏃 <span data-i18n="dashSprintTitle">Tiến độ Sprint hiện tại</span></h3>
+            <div class="sprint-progress" style="max-width:380px;margin-top:8px">
+              <div class="progress-ring">
+                <svg viewBox="0 0 100 100">
+                  <circle class="progress-bg" cx="50" cy="50" r="42"/>
+                  <circle class="progress-fill" cx="50" cy="50" r="42" id="dashProgressCircle"/>
+                </svg>
+                <div class="progress-text">
+                  <span class="progress-percent" id="dashPercent">0%</span>
+                  <span class="progress-label">hoàn thành</span>
+                </div>
+              </div>
+              <div class="sprint-meta">
+                <div class="meta-item">
+                  <span class="meta-label">Tên Sprint</span>
+                  <span class="meta-value" id="dashSprintName" style="font-weight:600;color:var(--amber)">Sprint 1</span>
+                </div>
+                <div class="meta-item">
+                  <span class="meta-label">Mục tiêu</span>
+                  <span class="meta-value" id="dashSprintGoal">—</span>
+                </div>
+              </div>
+            </div>
+            <div style="margin-top:14px">
+              <button class="btn-secondary" onclick="switchView('kanban'); switchScrumTab('sprint')">
+                🏃 Xem bảng Burndown
+              </button>
+            </div>
+          </div>
+
+          <!-- Quote & Kaizen Advice -->
+          <div class="dash-card">
+            <h3>💡 <span data-i18n="dashKaizenTitle">Triết lý Kaizen hôm nay</span></h3>
+            <div id="dashQuote" style="font-style:italic;color:var(--text-secondary);font-size:0.92rem;line-height:1.6;padding:12px;background:rgba(0,0,0,0.18);border-left:3px solid var(--amber);border-radius:var(--r-sm)"></div>
+            <div style="margin-top:14px;display:flex;gap:8px">
+              <button class="btn-secondary" onclick="switchView('kanban')">📋 Đi tới Kanban</button>
+              <button class="btn-secondary" onclick="switchView('noon')">☀️ Đi tới Noon Done</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ MODALS & OVERLAYS ═══════ -->
+
+  <!-- ADD / EDIT TASK MODAL -->
+  <div class="modal-overlay" id="taskModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="modalTitle" data-i18n="modalAddTaskTitle">✏️ Thêm công việc mới</h3>
+        <button class="btn-close" onclick="closeModal()">✕</button>
+      </div>
+      <form id="taskForm">
+        <div class="form-group">
+          <label><span data-i18n="labelTaskTitle">Tiêu đề</span> <span class="required">*</span></label>
+          <input type="text" id="taskTitle" placeholder="Nhập tiêu đề công việc..." required maxlength="100">
+        </div>
+        <div class="form-group">
+          <label data-i18n="labelTaskDesc">Mô tả</label>
+          <textarea id="taskDesc" placeholder="Chi tiết công việc..." rows="2" maxlength="500"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label data-i18n="labelPriority">Độ ưu tiên</label>
+            <select id="taskPriority">
+              <option value="low" data-i18n="priorityLow">Thấp</option>
+              <option value="medium" selected data-i18n="priorityMedium">Trung bình</option>
+              <option value="high" data-i18n="priorityHigh">Cao</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Story Points</label>
+            <select id="taskPoints">
+              <option value="1">1 SP</option>
+              <option value="2">2 SP</option>
+              <option value="3" selected>3 SP</option>
+              <option value="5">5 SP</option>
+              <option value="8">8 SP</option>
+              <option value="13">13 SP</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label data-i18n="labelStatus">Trạng thái</label>
+            <select id="taskStatus">
+              <option value="todo" data-i18n="statusTodoOpt">待機 · To Do</option>
+              <option value="doing" data-i18n="statusDoingOpt">進行 · Doing</option>
+              <option value="done" data-i18n="statusDoneOpt">完了 · Done</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label data-i18n="labelDueDate">Hạn chót</label>
+            <input type="date" id="taskDueDate">
+          </div>
+        </div>
+        <div class="form-group">
+          <label data-i18n="labelStickyColor">Màu Sticky Note</label>
+          <div class="color-picker" id="colorPicker">
+            <div class="color-option selected" data-color="#F5F0E1" style="background:#F5F0E1" title="和紙 Washi"></div>
+            <div class="color-option" data-color="#FADCE6" style="background:#FADCE6" title="桜 Sakura"></div>
+            <div class="color-option" data-color="#D6E5C3" style="background:#D6E5C3" title="抹茶 Matcha"></div>
+            <div class="color-option" data-color="#C9D9E8" style="background:#C9D9E8" title="藍 Ai"></div>
+            <div class="color-option" data-color="#DDD2E4" style="background:#DDD2E4" title="藤 Fuji"></div>
+            <div class="color-option" data-color="#F0DCC0" style="background:#F0DCC0" title="琥珀 Kohaku"></div>
+          </div>
+        </div>
+        <input type="hidden" id="taskId" value="">
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" onclick="closeModal()" data-i18n="btnCancel">Hủy</button>
+          <button type="submit" class="btn-save" data-i18n="btnSave">Lưu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- DELETE TASK MODAL -->
+  <div class="modal-overlay" id="deleteModal">
+    <div class="modal modal-small">
+      <div class="modal-header">
+        <h3 data-i18n="deleteTitle">Xác nhận xóa</h3>
+        <button class="btn-close" onclick="closeDeleteModal()">✕</button>
+      </div>
+      <p class="delete-msg" data-i18n="deleteMsg">Bạn có chắc chắn muốn xóa công việc này?</p>
+      <div class="modal-actions">
+        <button class="btn-cancel" onclick="closeDeleteModal()" data-i18n="btnCancel">Hủy</button>
+        <button class="btn-delete" id="btnConfirmDelete" data-i18n="btnDelete">Xóa</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SPRINT CONFIG MODAL -->
+  <div class="modal-overlay" id="sprintModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 data-i18n="sprintConfigTitle">⚙️ Cấu hình Sprint</h3>
+        <button class="btn-close" onclick="closeSprintModal()">✕</button>
+      </div>
+      <form id="sprintForm">
+        <div class="form-group">
+          <label data-i18n="labelSprintName">Tên Sprint</label>
+          <input type="text" id="sprintNameInput" placeholder="Sprint 1" maxlength="50">
+        </div>
+        <div class="form-group">
+          <label data-i18n="labelSprintGoal">Mục tiêu Sprint</label>
+          <textarea id="sprintGoalInput" placeholder="Mục tiêu cần đạt được..." rows="2" maxlength="200"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label data-i18n="labelStartDate">Ngày bắt đầu</label>
+            <input type="date" id="sprintStart">
+          </div>
+          <div class="form-group">
+            <label data-i18n="labelEndDate">Ngày kết thúc</label>
+            <input type="date" id="sprintEnd">
+          </div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" onclick="closeSprintModal()" data-i18n="btnCancel">Hủy</button>
+          <button type="button" class="btn-delete" onclick="endCurrentSprint()" style="margin-right:auto" data-i18n="btnEndSprint">Kết thúc Sprint</button>
+          <button type="submit" class="btn-save" data-i18n="btnSaveSprint">Lưu Sprint</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- BACKLOG ITEM MODAL -->
+  <div class="modal-overlay" id="backlogModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 id="backlogModalTitle" data-i18n="addBacklogTitle">📦 Thêm Backlog Item</h3>
+        <button class="btn-close" onclick="closeBacklogModal()">✕</button>
+      </div>
+      <form id="backlogForm">
+        <div class="form-group">
+          <label><span data-i18n="labelUserStory">User Story</span> <span class="required">*</span></label>
+          <input type="text" id="backlogTitle" placeholder='VD: "Là người dùng, tôi muốn..."' required maxlength="150">
+        </div>
+        <div class="form-group">
+          <label data-i18n="labelCriteria">Acceptance Criteria</label>
+          <textarea id="backlogDesc" placeholder="Tiêu chí chấp nhận..." rows="2" maxlength="300"></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label data-i18n="labelPriority">Độ ưu tiên</label>
+            <select id="backlogPriority">
+              <option value="low" data-i18n="priorityLow">Thấp</option>
+              <option value="medium" selected data-i18n="priorityMedium">Trung bình</option>
+              <option value="high" data-i18n="priorityHigh">Cao</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Story Points</label>
+            <select id="backlogPoints">
+              <option value="1">1 SP</option>
+              <option value="2">2 SP</option>
+              <option value="3" selected>3 SP</option>
+              <option value="5">5 SP</option>
+              <option value="8">8 SP</option>
+              <option value="13">13 SP</option>
+            </select>
+          </div>
+        </div>
+        <input type="hidden" id="backlogId" value="">
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" onclick="closeBacklogModal()" data-i18n="btnCancel">Hủy</button>
+          <button type="submit" class="btn-save" data-i18n="btnSave">Lưu</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- SETTINGS & DATA BACKUP MODAL -->
+  <div class="modal-overlay" id="settingsModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h3>⚙️ <span data-i18n="settingsTitle">Cài đặt & Sao lưu dữ liệu</span></h3>
+        <button class="btn-close" onclick="closeSettingsModal()">✕</button>
+      </div>
+
+      <!-- User Profile -->
+      <div class="settings-section-title" data-i18n="settingsSectionProfile">Thông tin người dùng</div>
+      <div class="form-group">
+        <label data-i18n="settingsLabelName">Tên của bạn (hiển thị lời chào)</label>
+        <input type="text" id="settingsName" placeholder="Ví dụ: Hoàng, Linh..." maxlength="30">
+      </div>
+      <div class="form-group">
+        <label data-i18n="settingsLabelSkill">Mục tiêu kỹ năng mặc định</label>
+        <input type="text" id="settingsDefaultSkill" placeholder="Ví dụ: Học 15 từ vựng tiếng Nhật" maxlength="60">
+      </div>
+
+      <!-- Workflow Options -->
+      <div class="settings-section-title" data-i18n="settingsSectionWorkflow">Tùy chọn năng suất</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label data-i18n="settingsLabelWip">WIP Limit cột Doing (số việc tối đa)</label>
+          <input type="number" id="settingsWipLimit" min="1" max="10" value="3">
+        </div>
+        <div class="form-group">
+          <label data-i18n="settingsLabelSound">Chuông thiền Pomodoro</label>
+          <select id="settingsPomoSound">
+            <option value="true" selected>🔔 Bật chuông Zen</option>
+            <option value="false">🔇 Tắt chuông</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Data Backup & Restore -->
+      <div class="settings-section-title" data-i18n="settingsSectionBackup">Sao lưu & Phục hồi dữ liệu</div>
+      <p style="font-size:0.75rem;color:var(--text-secondary);margin-bottom:8px" data-i18n="settingsBackupDesc">
+        Dữ liệu được lưu trong trình duyệt. Hãy tải file dự phòng JSON để bảo vệ dữ liệu khi đổi máy hoặc xóa cache.
+      </p>
+      <div class="settings-btn-row">
+        <button type="button" class="btn-secondary" onclick="exportAllData()">
+          💾 <span data-i18n="btnExport">Xuất sao lưu (JSON)</span>
+        </button>
+        <label class="btn-secondary" style="cursor:pointer;margin-bottom:0">
+          📥 <span data-i18n="btnImport">Nhập dữ liệu</span>
+          <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="importDataFile(event)">
+        </label>
+        <button type="button" class="btn-secondary" onclick="resetToSampleData()" title="Khôi phục dữ liệu mẫu ban đầu">
+          🔄 Dữ liệu mẫu
+        </button>
+      </div>
+
+      <div class="modal-actions" style="margin-top:24px">
+        <button type="button" class="btn-delete" onclick="clearAllData()" style="margin-right:auto" data-i18n="btnClearAll">
+          🗑️ Xóa tất cả
+        </button>
+        <button type="button" class="btn-cancel" onclick="closeSettingsModal()" data-i18n="btnCancel">Hủy</button>
+        <button type="button" class="btn-save" onclick="saveSettings()" data-i18n="btnSave">Lưu cài đặt</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK SEARCH OVERLAY (Ctrl+K) -->
+  <div class="search-overlay" id="searchOverlay" onclick="if(event.target===this)closeSearch()">
+    <div class="search-box">
+      <input type="text" class="search-input" id="searchInput"
+             placeholder="🔍 Tìm kiếm tasks, notes, backlog, kỹ năng... (Ctrl+K)"
+             oninput="doSearch(this.value)">
+      <div class="search-results" id="searchResults">
+        <div class="search-hint" data-i18n="searchHint">Gõ từ khóa để tìm kiếm...</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KEYBOARD SHORTCUTS MODAL (?) -->
+  <div class="modal-overlay" id="shortcutsModal">
+    <div class="modal modal-small">
+      <div class="modal-header">
+        <h3 data-i18n="shortcutsTitle">⌨️ Phím tắt nhanh</h3>
+        <button class="btn-close" onclick="closeShortcuts()">✕</button>
+      </div>
+      <div class="shortcuts-grid">
+        <div class="shortcut-item"><span class="shortcut-key">Ctrl+N</span> <span>Thêm task mới</span></div>
+        <div class="shortcut-item"><span class="shortcut-key">Ctrl+K</span> <span>Tìm kiếm nhanh</span></div>
+        <div class="shortcut-item"><span class="shortcut-key">1</span> <span>Bảng Kanban</span></div>
+        <div class="shortcut-item"><span class="shortcut-key">2</span> <span>Trang Noon Done</span></div>
+        <div class="shortcut-item"><span class="shortcut-key">3</span> <span>Trang Dashboard</span></div>
+        <div class="shortcut-item"><span class="shortcut-key">P</span> <span>Bật/Tắt Pomodoro</span></div>
+        <div class="shortcut-item"><span class="shortcut-key">?</span> <span>Bảng phím tắt này</span></div>
+        <div class="shortcut-item"><span class="shortcut-key">Esc</span> <span>Đóng cửa sổ</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- POMODORO TIMER FLOATING WIDGET -->
+  <div class="pomodoro-float hidden" id="pomoFloat">
+    <div>
+      <div class="pomo-time" id="pomoTime">25:00</div>
+      <div class="pomo-label" id="pomoLabel">WORK</div>
+    </div>
+    <div class="pomo-btns">
+      <button class="pomo-btn" id="pomoStartBtn" onclick="togglePomo()" title="Bắt đầu / Tạm dừng">▶</button>
+      <button class="pomo-btn" onclick="resetPomo()" title="Đặt lại (25m)">↺</button>
+      <button class="pomo-btn" onclick="togglePomoMode()" title="Chuyển Work / Break">⚡</button>
+      <button class="pomo-btn" onclick="togglePomoPanel()" title="Thu nhỏ">✕</button>
+    </div>
+  </div>
+  <button class="pomo-toggle" id="pomoToggle" onclick="togglePomoPanel()" title="🍅 Mở đồng hồ Pomodoro (Phím P)">🍅</button>
+
+  <!-- TOAST CONTAINER -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- INTERACTIVE ONBOARDING TOUR OVERLAYS -->
+  <div class="tour-backdrop" id="tourBackdrop" onclick="closeTour()"></div>
+  <div class="tour-spotlight" id="tourSpotlight"></div>
+  <div class="tour-popover" id="tourPopover">
+    <div class="tour-header">
+      <span class="tour-step-badge" id="tourStepBadge">Bước 1 / 6</span>
+      <button class="tour-btn-close" onclick="closeTour()" title="Đóng hướng dẫn">✕</button>
+    </div>
+    <h3 class="tour-title" id="tourTitle">Tiêu đề bước</h3>
+    <p class="tour-desc" id="tourDesc">Mô tả chi tiết hướng dẫn thao tác...</p>
+    <div class="tour-footer">
+      <button class="tour-btn-skip" onclick="closeTour()" data-i18n="tourBtnSkip">Bỏ qua</button>
+      <div class="tour-actions-right">
+        <button class="tour-btn-prev" id="tourBtnPrev" onclick="prevTourStep()" data-i18n="tourBtnPrev">⟨ Trước</button>
+        <button class="tour-btn-next" id="tourBtnNext" onclick="nextTourStep()" data-i18n="tourBtnNext">Tiếp tục ⟩</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════ JAVASCRIPT ENGINE ═══════ -->
+  <script>
+// ══════════════════════════════════════════════════════════════
+// SCRUMBAN & NOON DONE — UNIFIED CORE ENGINE
+// ══════════════════════════════════════════════════════════════
+
+// ═══ MULTI-LANGUAGE DICTIONARY (i18n) ═══
+let currentLang = localStorage.getItem('kanban_zen_lang') || 'vi';
+
+const TRANSLATIONS = {
+  vi: {
+    appSubtitle: 'アジャイル · Agile Productivity',
+    navKanban: 'Kanban',
+    navNoon: 'Noon Done',
+    navDash: 'Dashboard',
+    sprintDaysRemaining: '{days} ngày còn lại',
+    sprintDueToday: 'Hôm nay là hạn cuối',
+    sprintOverdue: 'Đã quá hạn {days} ngày',
+    btnAddTask: 'Thêm việc',
+    btnGuide: 'Hướng dẫn',
+    colTodoTitle: '待機 · Cần làm',
+    colDoingTitle: '進行 · Đang làm',
+    colDoneTitle: '完了 · Hoàn thành',
+    emptyTodo: 'Kéo thả sticky note vào đây',
+    emptyDoing: 'Đang thực hiện',
+    emptyDone: 'Đã hoàn thành',
+    sprintCurrentTitle: 'スプリント · Sprint hiện tại',
+    labelCompleted: 'hoàn thành',
+    labelGoal: 'Mục tiêu',
+    noGoal: 'Chưa đặt mục tiêu',
+    burndownTitle: 'バーンダウン · Burndown',
+    burndownIdeal: 'Lý tưởng',
+    burndownActual: 'Thực tế',
+    standupTitle: '朝会 · Daily Standup',
+    emptyStandup: 'Nhấn ＋ để ghi chú standup hàng ngày',
+    tipsSectionTitle: 'Mẹo Scrumban & Kaizen',
+    backlogTitle: 'バックログ · Product Backlog',
+    backlogDesc: 'Danh sách User Stories chưa vào Sprint. Bấm "Đưa vào Sprint" để bắt đầu thực hiện.',
+    emptyBacklog: 'Backlog trống. Nhấn ＋ để thêm.',
+    historyTitle: '歴史 · Sprint History',
+    emptyHistory: 'Chưa có Sprint nào hoàn thành',
+    retroTitle: '振り返り · Retrospective',
+    retroDesc: 'Nhìn lại Sprint — điều gì tốt, điều gì cần cải thiện?',
+    retroGoodHeader: '🌸 Tốt — うまくいったこと',
+    retroImproveHeader: '🍂 Cải thiện — 改善すべきこと',
+    retroActionHeader: '🎋 Hành động — アクション',
+    retroEmpty: 'Chưa có mục nào',
+    btnMoveToSprint: '➡️ Vào Sprint',
+    modalAddTaskTitle: '✏️ Thêm công việc mới',
+    modalEditTaskTitle: '✏️ Chỉnh sửa công việc',
+    labelTaskTitle: 'Tiêu đề',
+    labelTaskDesc: 'Mô tả',
+    labelPriority: 'Độ ưu tiên',
+    priorityLow: 'Thấp',
+    priorityMedium: 'Trung bình',
+    priorityHigh: 'Cao',
+    labelStatus: 'Trạng thái',
+    statusTodoOpt: '待機 · To Do',
+    statusDoingOpt: '進行 · Doing',
+    statusDoneOpt: '完了 · Done',
+    labelDueDate: 'Hạn chót',
+    labelStickyColor: 'Màu Sticky Note',
+    btnCancel: 'Hủy',
+    btnSave: 'Lưu',
+    deleteTitle: 'Xác nhận xóa',
+    deleteMsg: 'Bạn có chắc chắn muốn xóa công việc này?',
+    btnDelete: 'Xóa',
+    sprintConfigTitle: '⚙️ Cấu hình Sprint',
+    labelSprintName: 'Tên Sprint',
+    labelSprintGoal: 'Mục tiêu Sprint',
+    labelStartDate: 'Ngày bắt đầu',
+    labelEndDate: 'Ngày kết thúc',
+    btnEndSprint: 'Kết thúc Sprint',
+    btnSaveSprint: 'Lưu Sprint',
+    addBacklogTitle: '📦 Thêm Backlog Item',
+    labelUserStory: 'User Story',
+    labelCriteria: 'Acceptance Criteria',
+    noonTabDaily: 'Hôm nay',
+    noonTabSkills: 'Kỹ năng',
+    noonTabReview: 'Tuần qua',
+    noonPriorityLabel: '⭐ Việc quan trọng nhất chiều nay',
+    noonMorningTitle: 'Sáng nay đã làm',
+    noonAfternoonTitle: 'Chiều nay cần làm',
+    btnSelect: 'Chọn',
+    btnSendToKanban: 'Gửi việc chiều sang Kanban',
+    noonDailyTip: '💡 Mỗi buổi trưa, ghi lại sáng làm được gì → chọn 1 việc quan trọng nhất cho chiều → buổi tối xem lại kết quả.',
+    noonSkillCardTitle: 'Học kỹ năng mỗi ngày',
+    noonSkillTodayLabel: 'Hôm nay học gì?',
+    btnSetSkill: 'Đặt bài học',
+    labelQuickSuggestions: 'Gợi ý nhanh',
+    label30Days: '30 ngày qua',
+    labelTasksDone: 'Việc đã hoàn thành',
+    labelSkillDays: 'Ngày học kỹ năng',
+    labelActiveDays: 'Ngày có ghi chú',
+    labelWeeklyReflection: 'Nhìn lại tuần này',
+    dashTitle: '📊 Tổng quan năng suất & Tiến độ',
+    dashSubtitle: 'Kết hợp phân tích dữ liệu thông minh từ Kanban và Noon Done',
+    labelTotalKanban: 'Kanban Tasks',
+    labelCompletedKanban: 'Đã hoàn thành',
+    labelSkillStreak: '🔥 Chuỗi học Kỹ năng',
+    labelPointsDone: 'Story Points Done',
+    dashActivityTitle: 'Hoạt động 7 ngày qua',
+    dashChartDesc: 'Biểu đồ tổng hợp các công việc hoàn thành mỗi ngày từ cả 2 ứng dụng.',
+    dashSkillCalTitle: 'Thói quen kỹ năng (30 ngày)',
+    dashSprintTitle: 'Tiến độ Sprint hiện tại',
+    dashKaizenTitle: 'Triết lý Kaizen hôm nay',
+    settingsTitle: 'Cài đặt & Sao lưu dữ liệu',
+    settingsSectionProfile: 'Thông tin người dùng',
+    settingsLabelName: 'Tên của bạn (hiển thị lời chào)',
+    settingsLabelSkill: 'Mục tiêu kỹ năng mặc định',
+    settingsSectionWorkflow: 'Tùy chọn năng suất',
+    settingsLabelWip: 'WIP Limit cột Doing (số việc tối đa)',
+    settingsLabelSound: 'Chuông thiền Pomodoro',
+    settingsSectionBackup: 'Sao lưu & Phục hồi dữ liệu',
+    settingsBackupDesc: 'Dữ liệu được lưu trong trình duyệt. Hãy tải file dự phòng JSON để bảo vệ dữ liệu khi đổi máy hoặc xóa cache.',
+    btnExport: 'Xuất sao lưu (JSON)',
+    btnImport: 'Nhập dữ liệu',
+    btnClearAll: '🗑️ Xóa tất cả',
+    shortcutsTitle: '⌨️ Phím tắt nhanh',
+    searchHint: 'Gõ từ khóa để tìm kiếm...',
+    scrumOn: '⚡ Scrum: Bật',
+    scrumOff: '⚡ Scrum: Tắt',
+    tourBtnSkip: 'Bỏ qua',
+    tourBtnPrev: '⟨ Trước',
+    tourBtnNext: 'Tiếp tục ⟩',
+    tourBtnFinish: '🎉 Bắt đầu sử dụng!'
+  },
+  en: {
+    appSubtitle: 'アジャイル · Agile Productivity',
+    navKanban: 'Kanban',
+    navNoon: 'Noon Done',
+    navDash: 'Dashboard',
+    sprintDaysRemaining: '{days} days remaining',
+    sprintDueToday: 'Sprint ends today',
+    sprintOverdue: 'Overdue by {days} days',
+    btnAddTask: 'Add Task',
+    btnGuide: 'Guide',
+    colTodoTitle: '待機 · To Do',
+    colDoingTitle: '進行 · Doing',
+    colDoneTitle: '完了 · Done',
+    emptyTodo: 'Drag & drop sticky notes here',
+    emptyDoing: 'Work in progress',
+    emptyDone: 'Completed tasks',
+    sprintCurrentTitle: 'スプリント · Current Sprint',
+    labelCompleted: 'completed',
+    labelGoal: 'Goal',
+    noGoal: 'No sprint goal set',
+    burndownTitle: 'バーンダウン · Burndown',
+    burndownIdeal: 'Ideal',
+    burndownActual: 'Actual',
+    standupTitle: '朝会 · Daily Standup',
+    emptyStandup: 'Click ＋ to record daily standup notes',
+    tipsSectionTitle: 'Scrumban & Kaizen Tips',
+    backlogTitle: 'バックログ · Product Backlog',
+    backlogDesc: 'User Stories not yet in Sprint. Click "Move to Sprint" to start.',
+    emptyBacklog: 'Backlog is empty. Click ＋ to add.',
+    historyTitle: '歴史 · Sprint History',
+    emptyHistory: 'No completed Sprints yet',
+    retroTitle: '振り返り · Retrospective',
+    retroDesc: 'Sprint review — what went well, what to improve?',
+    retroGoodHeader: '🌸 Good — What went well',
+    retroImproveHeader: '🍂 Improve — What to improve',
+    retroActionHeader: '🎋 Action — Next steps',
+    retroEmpty: 'No items yet',
+    btnMoveToSprint: '➡️ Move to Sprint',
+    modalAddTaskTitle: '✏️ Add New Task',
+    modalEditTaskTitle: '✏️ Edit Task',
+    labelTaskTitle: 'Title',
+    labelTaskDesc: 'Description',
+    labelPriority: 'Priority',
+    priorityLow: 'Low',
+    priorityMedium: 'Medium',
+    priorityHigh: 'High',
+    labelStatus: 'Status',
+    statusTodoOpt: '待機 · To Do',
+    statusDoingOpt: '進行 · Doing',
+    statusDoneOpt: '完了 · Done',
+    labelDueDate: 'Due Date',
+    labelStickyColor: 'Sticky Note Color',
+    btnCancel: 'Cancel',
+    btnSave: 'Save',
+    deleteTitle: 'Confirm Delete',
+    deleteMsg: 'Are you sure you want to delete this task?',
+    btnDelete: 'Delete',
+    sprintConfigTitle: '⚙️ Sprint Configuration',
+    labelSprintName: 'Sprint Name',
+    labelSprintGoal: 'Sprint Goal',
+    labelStartDate: 'Start Date',
+    labelEndDate: 'End Date',
+    btnEndSprint: 'End Sprint',
+    btnSaveSprint: 'Save Sprint',
+    addBacklogTitle: '📦 Add Backlog Item',
+    labelUserStory: 'User Story',
+    labelCriteria: 'Acceptance Criteria',
+    noonTabDaily: 'Today',
+    noonTabSkills: 'Skills',
+    noonTabReview: 'Weekly Review',
+    noonPriorityLabel: '⭐ Priority Task of the Afternoon',
+    noonMorningTitle: 'Morning Accomplishments',
+    noonAfternoonTitle: 'Afternoon Priorities',
+    btnSelect: 'Set',
+    btnSendToKanban: 'Send Afternoon Tasks to Kanban',
+    noonDailyTip: '💡 Every noon, review morning wins → pick 1 key priority for the afternoon → review at night.',
+    noonSkillCardTitle: 'Daily Skill Practice',
+    noonSkillTodayLabel: 'Today Skill',
+    btnSetSkill: 'Set Goal',
+    labelQuickSuggestions: 'Quick Suggestions',
+    label30Days: 'Past 30 Days',
+    labelTasksDone: 'Tasks Completed',
+    labelSkillDays: 'Skill Days',
+    labelActiveDays: 'Active Days',
+    labelWeeklyReflection: 'Weekly Reflection',
+    dashTitle: '📊 Productivity & Progress Dashboard',
+    dashSubtitle: 'Unified data insights from both Kanban and Noon Done',
+    labelTotalKanban: 'Kanban Tasks',
+    labelCompletedKanban: 'Completed',
+    labelSkillStreak: '🔥 Skill Streak',
+    labelPointsDone: 'Story Points Done',
+    dashActivityTitle: 'Past 7 Days Activity',
+    dashChartDesc: 'Aggregated daily completions from both Kanban and Noon Done.',
+    dashSkillCalTitle: 'Daily Skill Habit (30 Days)',
+    dashSprintTitle: 'Current Sprint Progress',
+    dashKaizenTitle: 'Today Kaizen Philosophy',
+    settingsTitle: 'Settings & Data Backup',
+    settingsSectionProfile: 'User Profile',
+    settingsLabelName: 'Your Name (Greeting display)',
+    settingsLabelSkill: 'Default Skill Goal',
+    settingsSectionWorkflow: 'Productivity Options',
+    settingsLabelWip: 'Doing Column WIP Limit',
+    settingsLabelSound: 'Pomodoro Zen Bell Chime',
+    settingsSectionBackup: 'Backup & Restore',
+    settingsBackupDesc: 'Data is stored in your browser. Download a JSON backup to protect against data loss.',
+    btnExport: 'Export Backup (JSON)',
+    btnImport: 'Import Data',
+    btnClearAll: '🗑️ Clear All',
+    shortcutsTitle: '⌨️ Keyboard Shortcuts',
+    searchHint: 'Type keywords to search...',
+    scrumOn: '⚡ Scrum: On',
+    scrumOff: '⚡ Scrum: Off',
+    tourBtnSkip: 'Skip',
+    tourBtnPrev: '⟨ Back',
+    tourBtnNext: 'Next ⟩',
+    tourBtnFinish: '🎉 Start Using!'
+  }
+};
+
+function t(key, params = {}) {
+  let str = (TRANSLATIONS[currentLang] && TRANSLATIONS[currentLang][key]) || TRANSLATIONS['vi'][key] || key;
+  Object.keys(params).forEach(k => {
+    str = str.replace(new RegExp('\\{' + k + '\\}', 'g'), params[k]);
+  });
+  return str;
+}
+
+function setLanguage(lang) {
+  if (lang !== 'vi' && lang !== 'en') return;
+  currentLang = lang;
+  localStorage.setItem('kanban_zen_lang', lang);
+
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === lang);
+  });
+
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const k = el.dataset.i18n;
+    el.textContent = t(k);
+  });
+
+  updateScrumUI();
+  updateGreeting();
+  renderAll();
+  showToast(lang === 'vi' ? 'Đã đổi sang Tiếng Việt' : 'Switched to English', 'info');
+}
+
+// ═══ VIEW SWITCHING ═══
+let activeView = localStorage.getItem('scrumban_active_view') || 'kanban';
+
+function switchView(view) {
+  activeView = view;
+  localStorage.setItem('scrumban_active_view', view);
+
+  document.querySelectorAll('.app-view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.main-nav-btn').forEach(b => b.classList.remove('active'));
+
+  const targetView = document.getElementById('view-' + view);
+  if (targetView) targetView.classList.add('active');
+
+  const targetBtn = document.querySelector('.main-nav-btn[data-view="' + view + '"]');
+  if (targetBtn) targetBtn.classList.add('active');
+
+  if (view === 'noon') {
+    renderNoonDaily();
+    updateDateDisplay();
+    showQuote();
+  }
+  if (view === 'dashboard') {
+    renderDashboard();
+  }
+  if (view === 'kanban') {
+    renderKanbanColumns();
+    renderBurndown();
+  }
+}
+
+// ═══ SCRUM MODE ═══
+let isScrumEnabled = localStorage.getItem('kanban_zen_scrum_enabled') !== 'false';
+
+function toggleScrumMode() {
+  isScrumEnabled = !isScrumEnabled;
+  localStorage.setItem('kanban_zen_scrum_enabled', isScrumEnabled ? 'true' : 'false');
+  updateScrumUI();
+  showToast(isScrumEnabled ? t('toastScrumEnabled', 'Đã bật Scrum Mode') : t('toastScrumDisabled', 'Chuyển sang Kanban đơn giản'), 'info');
+}
+
+function updateScrumUI() {
+  const layout = document.getElementById('kanbanLayout');
+  const panel = document.getElementById('scrumPanel');
+  const badge = document.getElementById('sprintBadge');
+  const btn = document.getElementById('btnScrumToggle');
+  const txt = document.getElementById('scrumToggleText');
+
+  if (isScrumEnabled) {
+    layout.classList.add('with-scrum');
+    panel.style.display = '';
+    badge.style.display = '';
+    btn.classList.add('active');
+    if (txt) txt.textContent = t('scrumOn');
+    setTimeout(renderBurndown, 80);
+  } else {
+    layout.classList.remove('with-scrum');
+    panel.style.display = 'none';
+    badge.style.display = 'none';
+    btn.classList.remove('active');
+    if (txt) txt.textContent = t('scrumOff');
+  }
+}
+
+// ═══ GLOBAL STATE — KANBAN ═══
+let tasks = [];
+let backlog = [];
+let standups = [];
+let retros = { good: [], improve: [], action: [] };
+let sprintHistory = [];
+
+let currentSprint = {
+  name: 'Sprint 1',
+  goal: 'Xây dựng MVP hệ thống Quản lý Công việc & Agile Scrumban',
+  startDate: fmtDate(0),
+  endDate: fmtDate(14),
+  status: 'active'
+};
+
+let draggedTaskId = null;
+let deleteTargetId = null;
+let editTaskId = null;
+let editBacklogId = null;
+
+function fmtDate(off) {
+  const d = new Date();
+  d.setDate(d.getDate() + off);
+  return d.toISOString().split('T')[0];
+}
+
+// ═══ KANBAN LOCAL STORAGE ═══
+function saveKanban() {
+  localStorage.setItem('kanban_zen_tasks', JSON.stringify(tasks));
+  localStorage.setItem('scrum_zen_sprint', JSON.stringify(currentSprint));
+  localStorage.setItem('scrum_zen_backlog', JSON.stringify(backlog));
+  localStorage.setItem('scrum_zen_standups', JSON.stringify(standups));
+  localStorage.setItem('scrum_zen_retros', JSON.stringify(retros));
+  localStorage.setItem('scrum_zen_history', JSON.stringify(sprintHistory));
+}
+
+function loadKanban() {
+  try { const t = localStorage.getItem('kanban_zen_tasks'); if (t) tasks = JSON.parse(t); } catch {}
+  try { const s = localStorage.getItem('scrum_zen_sprint'); if (s) currentSprint = JSON.parse(s); } catch {}
+  try { const b = localStorage.getItem('scrum_zen_backlog'); if (b) backlog = JSON.parse(b); } catch {}
+  try { const u = localStorage.getItem('scrum_zen_standups'); if (u) standups = JSON.parse(u); } catch {}
+  try { const r = localStorage.getItem('scrum_zen_retros'); if (r) retros = JSON.parse(r); } catch {}
+  try { const h = localStorage.getItem('scrum_zen_history'); if (h) sprintHistory = JSON.parse(h); } catch {}
+
+  if (!tasks.length && !localStorage.getItem('kanban_zen_tasks')) {
+    tasks = [
+      {
+        id: 'task-1',
+        title: 'Thiết kế kiến trúc hệ thống Scrumban',
+        description: 'Hợp nhất Kanban kéo thả và hệ thống rèn luyện Noon Done',
+        priority: 'high',
+        points: 5,
+        color: '#FADCE6',
+        status: 'done',
+        dueDate: fmtDate(1),
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'task-2',
+        title: 'Tối ưu bảng màu Wabi-sabi & Zen Dark',
+        description: 'Dịu mắt, thanh lịch, đồng bộ giao diện Washi, Matcha và Kohaku',
+        priority: 'medium',
+        points: 3,
+        color: '#D6E5C3',
+        status: 'doing',
+        dueDate: fmtDate(3),
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'task-3',
+        title: 'Biểu đồ Burndown & Đồng hồ Pomodoro',
+        description: 'Theo dõi tiến độ Sprint và duy trì tập trung 25 phút',
+        priority: 'high',
+        points: 5,
+        color: '#C9D9E8',
+        status: 'todo',
+        dueDate: fmtDate(5),
+        createdAt: new Date().toISOString()
+      },
+      {
+        id: 'task-4',
+        title: 'Liên kết việc chiều Noon Done sang Kanban',
+        description: 'Chuyển việc chiều chưa xong thành Kanban sticky note với 1 chạm',
+        priority: 'medium',
+        points: 2,
+        color: '#F5F0E1',
+        status: 'todo',
+        dueDate: fmtDate(7),
+        createdAt: new Date().toISOString()
+      }
+    ];
+
+    backlog = [
+      {
+        id: 'bl-1',
+        title: 'Là người dùng, tôi muốn xuất dữ liệu backup JSON để bảo vệ công việc',
+        description: 'Tải và nạp lại toàn bộ tasks, sprint và habits bất kỳ lúc nào',
+        priority: 'high',
+        points: 3
+      },
+      {
+        id: 'bl-2',
+        title: 'Là Scrum Master, tôi muốn theo dõi Velocity qua từng Sprint',
+        description: 'Biết trung bình hoàn thành bao nhiêu Story Points mỗi chu kỳ',
+        priority: 'medium',
+        points: 5
+      }
+    ];
+
+    standups = [
+      {
+        id: 'su-1',
+        date: 'Hôm nay',
+        text: 'Hôm qua: Hoàn tất hợp nhất 2 ứng dụng. Hôm nay: Tối ưu tính năng Pomodoro, Backup và Tour.'
+      }
+    ];
+
+    retros = {
+      good: ['Giao diện Zen dịu mắt, thao tác mượt mà', 'Story Points phân bổ khoa học'],
+      improve: ['Cần giữ kỷ luật không để quá 3 task ở cột Doing (WIP Limit)'],
+      action: ['Đặt WIP limit = 3 và bật chuông thiền khi xong Pomodoro']
+    };
+
+    sprintHistory = [
+      {
+        name: 'Sprint 0',
+        goal: 'Khởi tạo nền tảng & cấu trúc Scrumban',
+        points: 12,
+        completed: 12,
+        velocity: 12,
+        endDate: new Date().toLocaleDateString('vi-VN')
+      }
+    ];
+
+    currentSprint.goal = 'MVP Scrumban & Noon Done hoàn chỉnh';
+    saveKanban();
+  }
+}
+
+// ═══ NOON DONE STORAGE & FUNCTIONS ═══
+const ND_KEY = 'noon_done_data';
+
+function getNDStore() {
+  try { return JSON.parse(localStorage.getItem(ND_KEY)) || {}; } catch { return {}; }
+}
+
+function saveNDStore(d) {
+  localStorage.setItem(ND_KEY, JSON.stringify(d));
+}
+
+function todayKey() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+}
+
+function getNDDay(k) {
+  const s = getNDStore();
+  if (!s.days) s.days = {};
+  if (!s.days[k]) {
+    s.days[k] = { morning: [], afternoon: [], priority: '', skill: '', skillDone: false };
+  }
+  return s.days[k];
+}
+
+function saveNDDay(k, d) {
+  const s = getNDStore();
+  if (!s.days) s.days = {};
+  s.days[k] = d;
+  saveNDStore(s);
+}
+
+// ═══ RENDER ALL ═══
+function renderAll() {
+  renderKanbanColumns();
+  renderScrumHeader();
+  renderScrumSprint();
+  renderBacklog();
+  renderSprintHistory();
+  renderStandup();
+  renderRetro();
+  renderBurndown();
+  renderTip();
+}
+
+// ═══ KANBAN COLUMNS & WIP LIMIT ═══
+function renderKanbanColumns() {
+  renderCol('todo', 'todo-list');
+  renderCol('doing', 'doing-list');
+  renderCol('done', 'done-list');
+
+  const tc = tasks.filter(t => t.status === 'todo').length;
+  const dc = tasks.filter(t => t.status === 'doing').length;
+  const dn = tasks.filter(t => t.status === 'done').length;
+
+  document.getElementById('count-todo').textContent = tc;
+  document.getElementById('count-doing').textContent = dc;
+  document.getElementById('count-done').textContent = dn;
+
+  document.getElementById('statTodo').textContent = tc;
+  document.getElementById('statDoing').textContent = dc;
+  document.getElementById('statDone').textContent = dn;
+
+  // WIP Limit Check on Doing
+  const wipLimit = parseInt(localStorage.getItem('scrumban_wip_limit')) || 3;
+  const wipBadge = document.getElementById('wipBadge');
+  if (wipBadge) {
+    wipBadge.textContent = 'WIP: ' + dc + '/' + wipLimit;
+    if (dc > wipLimit) {
+      wipBadge.classList.add('warning');
+      wipBadge.title = 'Vượt quá giới hạn công việc đang làm (' + dc + '/' + wipLimit + ')!';
+    } else {
+      wipBadge.classList.remove('warning');
+      wipBadge.title = 'Giới hạn WIP bình thường';
+    }
+  }
+}
+
+function renderCol(status, containerId) {
+  const c = document.getElementById(containerId);
+  const es = c.querySelector('.empty-state');
+  c.innerHTML = '';
+  if (es) c.appendChild(es);
+
+  tasks.filter(t => t.status === status).forEach(task => {
+    c.appendChild(createNote(task));
+  });
+}
+
+function createNote(task) {
+  const n = document.createElement('div');
+  n.className = 'sticky-note';
+  n.id = task.id;
+  n.draggable = true;
+  n.style.backgroundColor = task.color || '#F5F0E1';
+
+  const seed = (task.id.split('').reduce((a, c) => a + c.charCodeAt(0), 0) % 5) - 2;
+  n.style.setProperty('--rotation', (seed * 0.8) + 'deg');
+
+  const pi = getPri(task.priority);
+
+  let dueH = '';
+  if (task.dueDate) {
+    const due = new Date(task.dueDate);
+    const td = new Date();
+    td.setHours(0, 0, 0, 0);
+    const over = due < td && task.status !== 'done';
+    const fmt = due.toLocaleDateString(currentLang === 'vi' ? 'vi-VN' : 'en-US', { day: '2-digit', month: '2-digit' });
+    dueH = '<span class="note-due ' + (over ? 'overdue' : '') + '">📅 ' + fmt + (over ? ' ⚠️' : '') + '</span>';
+  }
+
+  n.innerHTML = 
+    '<div class="note-actions">' +
+      '<button class="btn-note-action" data-act="priority" title="Đặt làm việc ưu tiên chiều nay trong Noon Done">⭐</button>' +
+      '<button class="btn-note-action" data-act="edit" title="Sửa">✏️</button>' +
+      '<button class="btn-note-action" data-act="delete" title="Xóa">✕</button>' +
+    '</div>' +
+    '<div class="note-title">' + esc(task.title) + '</div>' +
+    (task.description ? '<div class="note-desc">' + esc(task.description) + '</div>' : '') +
+    '<div class="note-meta">' +
+      '<div class="note-tags">' +
+        '<span class="note-sp">' + (task.points || 1) + ' SP</span>' +
+        '<span class="note-priority ' + pi.cls + '">' + pi.text + '</span>' +
+      '</div>' +
+      dueH +
+    '</div>';
+
+  n.querySelectorAll('.btn-note-action').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const act = btn.dataset.act;
+      if (act === 'priority') sendTaskToNoonPriority(task.id);
+      if (act === 'edit') editTask(task.id);
+      if (act === 'delete') requestDeleteTask(task.id);
+    });
+  });
+
+  n.addEventListener('dragstart', handleDragStart);
+  n.addEventListener('dragend', handleDragEnd);
+  return n;
+}
+
+function getPri(p) {
+  const isVi = currentLang === 'vi';
+  switch (p) {
+    case 'high': return { text: isVi ? '高 · Cao' : 'High', cls: 'priority-high' };
+    case 'low': return { text: isVi ? '低 · Thấp' : 'Low', cls: 'priority-low' };
+    default: return { text: isVi ? '中 · TB' : 'Medium', cls: 'priority-medium' };
+  }
+}
+
+// ═══ DRAG & DROP HANDLERS ═══
+function handleDragStart(e) {
+  draggedTaskId = e.target.closest('.sticky-note').id;
+  e.target.closest('.sticky-note').classList.add('dragging');
+  e.dataTransfer.effectAllowed = 'move';
+  e.dataTransfer.setData('text/plain', draggedTaskId);
+}
+
+function handleDragEnd(e) {
+  e.target.classList.remove('dragging');
+  document.querySelectorAll('.task-list').forEach(l => l.classList.remove('drag-over'));
+  draggedTaskId = null;
+}
+
+function handleDragOver(e) {
+  e.preventDefault();
+  e.dataTransfer.dropEffect = 'move';
+  e.currentTarget.classList.add('drag-over');
+}
+
+function handleDragLeave(e) {
+  const r = e.currentTarget.getBoundingClientRect();
+  if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) {
+    e.currentTarget.classList.remove('drag-over');
+  }
+}
+
+function handleDrop(e) {
+  e.preventDefault();
+  e.currentTarget.classList.remove('drag-over');
+  if (!draggedTaskId) return;
+
+  const status = e.currentTarget.closest('.column').dataset.status;
+  const task = tasks.find(t => t.id === draggedTaskId);
+  if (!task) return;
+
+  const prev = task.status;
+  task.status = status;
+
+  if (status === 'done' && prev !== 'done') {
+    task.completedAt = new Date().toISOString();
+  }
+
+  saveKanban();
+  renderAll();
+
+  if (prev !== status) {
+    const colName = status === 'todo' ? 'To Do' : status === 'doing' ? 'Doing' : 'Done';
+    showToast(currentLang === 'vi' ? 'Đã chuyển sang ' + colName : 'Moved to ' + colName, 'info');
+
+    // Check WIP limit on doing
+    if (status === 'doing') {
+      const wipLimit = parseInt(localStorage.getItem('scrumban_wip_limit')) || 3;
+      const doingCount = tasks.filter(t => t.status === 'doing').length;
+      if (doingCount > wipLimit) {
+        showToast('⚠️ Cột Doing có ' + doingCount + ' việc (vượt giới hạn ' + wipLimit + '). Hãy hoàn thành việc trước!', 'warning');
+      }
+    }
+  }
+}
+
+// ═══ CROSS APP INTEGRATIONS ═══
+function sendTaskToNoonPriority(taskId) {
+  const task = tasks.find(t => t.id === taskId);
+  if (!task) return;
+
+  const k = todayKey();
+  const d = getNDDay(k);
+  d.priority = task.title;
+  saveNDDay(k, d);
+
+  showToast('⭐ Đã đặt "' + task.title + '" làm việc ưu tiên chiều nay!', 'success');
+}
+
+function sendAfternoonToKanban() {
+  const k = todayKey();
+  const d = getNDDay(k);
+  const undone = (d.afternoon || []).filter(i => !i.done);
+
+  if (!undone.length) {
+    showToast('Không có việc chiều nào chưa hoàn thành để gửi sang Kanban', 'warning');
+    return;
+  }
+
+  let count = 0;
+  undone.forEach(item => {
+    const exists = tasks.some(t => t.title.toLowerCase() === item.text.toLowerCase() && t.status !== 'done');
+    if (!exists) {
+      tasks.push({
+        id: 'task-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+        title: item.text,
+        description: 'Chuyển từ danh sách chiều của Noon Done (' + k + ')',
+        priority: 'medium',
+        points: 2,
+        color: '#C9D9E8',
+        status: 'todo',
+        dueDate: todayKey(),
+        createdAt: new Date().toISOString()
+      });
+      count++;
+    }
+  });
+
+  saveKanban();
+  renderAll();
+  showToast(count > 0 ? 'Đã tạo ' + count + ' thẻ công việc sang cột To Do của Kanban!' : 'Các việc này đã có trong Kanban!', 'success');
+}
+
+// ═══ SCRUM SPRINT DISPLAY ═══
+function renderScrumHeader() {
+  document.getElementById('sprintName').textContent = currentSprint.name;
+  const end = new Date(currentSprint.endDate);
+  const td = new Date();
+  td.setHours(0, 0, 0, 0);
+  const diff = Math.ceil((end - td) / (864e5));
+
+  const daysEl = document.getElementById('sprintDays');
+  if (diff > 0) {
+    daysEl.textContent = t('sprintDaysRemaining', { days: diff });
+  } else if (diff === 0) {
+    daysEl.textContent = t('sprintDueToday');
+  } else {
+    daysEl.textContent = t('sprintOverdue', { days: Math.abs(diff) });
+  }
+}
+
+function renderScrumSprint() {
+  document.getElementById('sprintGoalDisplay').textContent = currentSprint.goal || t('noGoal');
+
+  const totalP = tasks.reduce((s, t) => s + (parseInt(t.points) || 0), 0);
+  const doneP = tasks.filter(t => t.status === 'done').reduce((s, t) => s + (parseInt(t.points) || 0), 0);
+  const pct = totalP > 0 ? Math.round(doneP / totalP * 100) : 0;
+
+  document.getElementById('progressPercent').textContent = pct + '%';
+  const c = document.getElementById('progressCircle');
+  if (c) c.style.strokeDashoffset = 264 - (pct / 100) * 264;
+
+  document.getElementById('sprintPoints').textContent = doneP + ' / ' + totalP + ' SP';
+
+  let vel = totalP;
+  if (sprintHistory.length > 0) {
+    vel = Math.round(sprintHistory.reduce((s, h) => s + (h.completed || 0), 0) / sprintHistory.length);
+  }
+  document.getElementById('sprintVelocity').textContent = vel + ' SP/Sprint';
+}
+
+// Burndown Chart Rendering
+function renderBurndown() {
+  const canvas = document.getElementById('burndownChart');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width;
+  const h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  const px = 38, py = 20, cw = w - px * 2, ch = h - py * 2;
+  const totalP = tasks.reduce((s, t) => s + (parseInt(t.points) || 0), 0) || 10;
+  const doneP = tasks.filter(t => t.status === 'done').reduce((s, t) => s + (parseInt(t.points) || 0), 0);
+  const rem = totalP - doneP;
+  const days = 10;
+
+  // Grid
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+  ctx.lineWidth = 1;
+  ctx.font = '9px "Be Vietnam Pro", sans-serif';
+  ctx.fillStyle = '#6f717d';
+
+  for (let i = 0; i <= 4; i++) {
+    const y = py + (ch / 4) * i;
+    ctx.beginPath();
+    ctx.moveTo(px, y);
+    ctx.lineTo(px + cw, y);
+    ctx.stroke();
+
+    ctx.textAlign = 'right';
+    ctx.fillText(Math.round(totalP - (totalP / 4) * i) + 'p', px - 6, y + 3);
+  }
+
+  // Ideal Line
+  ctx.beginPath();
+  ctx.setLineDash([4, 4]);
+  ctx.strokeStyle = '#5b82a6';
+  ctx.lineWidth = 2;
+  ctx.moveTo(px, py);
+  ctx.lineTo(px + cw, py + ch);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Actual Line
+  ctx.beginPath();
+  ctx.strokeStyle = '#c48b48';
+  ctx.lineWidth = 2.5;
+
+  const pts = [totalP, totalP, Math.max(0, totalP - 3), rem];
+  pts.forEach((p, i) => {
+    const x = px + (cw / (days - 1)) * i;
+    const y = py + ch - (p / totalP) * ch;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+
+  // Actual Points Dots
+  pts.forEach((p, i) => {
+    const x = px + (cw / (days - 1)) * i;
+    const y = py + ch - (p / totalP) * ch;
+    ctx.beginPath();
+    ctx.arc(x, y, 3.5, 0, Math.PI * 2);
+    ctx.fillStyle = '#18191f';
+    ctx.fill();
+    ctx.strokeStyle = '#c48b48';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+  });
+
+  // Legend
+  ctx.font = '8px "Be Vietnam Pro", sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillStyle = '#5b82a6';
+  ctx.fillRect(px + 8, h - 9, 10, 3);
+  ctx.fillStyle = '#a7a9b2';
+  ctx.fillText(t('burndownIdeal'), px + 22, h - 6);
+
+  ctx.fillStyle = '#c48b48';
+  ctx.fillRect(px + 80, h - 9, 10, 3);
+  ctx.fillStyle = '#a7a9b2';
+  ctx.fillText(t('burndownActual'), px + 94, h - 6);
+}
+
+// Scrum Tabs
+function switchScrumTab(tab) {
+  document.querySelectorAll('.scrum-tab').forEach(t => t.classList.toggle('active', t.dataset.tab === tab));
+  document.querySelectorAll('.scrum-content').forEach(c => c.classList.add('hidden'));
+
+  const el = document.getElementById('tab-' + tab);
+  if (el) el.classList.remove('hidden');
+
+  if (tab === 'sprint') setTimeout(renderBurndown, 50);
+  if (tab === 'backlog') renderSprintHistory();
+}
+
+// ═══ PRODUCT BACKLOG & SPRINT HISTORY ═══
+function renderBacklog() {
+  const list = document.getElementById('backlogList');
+  if (!list) return;
+
+  if (!backlog.length) {
+    list.innerHTML = '<div class="empty-standup"><span>📦</span><p>' + t('emptyBacklog') + '</p></div>';
+    return;
+  }
+
+  list.innerHTML = '';
+  backlog.forEach(item => {
+    const c = document.createElement('div');
+    c.className = 'backlog-card';
+    const pi = getPri(item.priority);
+
+    c.innerHTML = 
+      '<div class="backlog-header">' +
+        '<span class="backlog-title">' + esc(item.title) + '</span>' +
+        '<span class="note-sp">' + (item.points || 1) + ' SP</span>' +
+      '</div>' +
+      (item.description ? '<p class="backlog-criteria">' + esc(item.description) + '</p>' : '') +
+      '<div class="backlog-footer">' +
+        '<span class="note-priority ' + pi.cls + '">' + pi.text + '</span>' +
+        '<div style="display:flex;gap:5px">' +
+          '<button class="btn-sprint-add" onclick="moveToSprint(\'' + item.id + '\')">' + t('btnMoveToSprint') + '</button>' +
+          '<button class="btn-icon" onclick="deleteBacklogItem(\'' + item.id + '\')">✕</button>' +
+        '</div>' +
+      '</div>';
+    list.appendChild(c);
+  });
+}
+
+function addBacklogItem() {
+  document.getElementById('backlogForm').reset();
+  document.getElementById('backlogId').value = '';
+  document.getElementById('backlogModalTitle').textContent = t('addBacklogTitle');
+  document.getElementById('backlogModal').classList.add('active');
+}
+
+function closeBacklogModal() {
+  document.getElementById('backlogModal').classList.remove('active');
+}
+
+function handleBacklogSubmit(e) {
+  e.preventDefault();
+  const title = document.getElementById('backlogTitle').value.trim();
+  if (!title) return;
+
+  backlog.push({
+    id: 'bl-' + Date.now(),
+    title: title,
+    description: document.getElementById('backlogDesc').value.trim(),
+    priority: document.getElementById('backlogPriority').value,
+    points: parseInt(document.getElementById('backlogPoints').value) || 3
+  });
+
+  saveKanban();
+  renderBacklog();
+  closeBacklogModal();
+  showToast(currentLang === 'vi' ? 'Đã thêm "' + title + '" vào Backlog' : 'Added "' + title + '" to Backlog', 'success');
+}
+
+function deleteBacklogItem(id) {
+  const i = backlog.find(b => b.id === id);
+  backlog = backlog.filter(b => b.id !== id);
+  saveKanban();
+  renderBacklog();
+  showToast(currentLang === 'vi' ? 'Đã xóa "' + (i ? i.title : '') + '"' : 'Deleted item', 'info');
+}
+
+function moveToSprint(id) {
+  const item = backlog.find(b => b.id === id);
+  if (!item) return;
+
+  tasks.push({
+    id: 'task-' + Date.now(),
+    title: item.title,
+    description: item.description,
+    priority: item.priority,
+    points: item.points,
+    color: '#F5F0E1',
+    status: 'todo',
+    dueDate: currentSprint.endDate,
+    createdAt: new Date().toISOString()
+  });
+
+  backlog = backlog.filter(b => b.id !== id);
+  saveKanban();
+  renderAll();
+  showToast(currentLang === 'vi' ? 'Đã đưa "' + item.title + '" vào Sprint!' : 'Moved "' + item.title + '" to Sprint!', 'success');
+}
+
+function renderSprintHistory() {
+  const container = document.getElementById('sprintHistoryContainer');
+  if (!container) return;
+
+  if (!sprintHistory || !sprintHistory.length) {
+    container.innerHTML = '<div class="empty-standup"><span>📊</span><p>' + t('emptyHistory') + '</p></div>';
+    return;
+  }
+
+  container.innerHTML = '';
+  sprintHistory.slice().reverse().forEach(h => {
+    const card = document.createElement('div');
+    card.className = 'history-card';
+    const pct = h.points > 0 ? Math.round(((h.completed || 0) / h.points) * 100) : 100;
+
+    card.innerHTML = 
+      '<div class="history-card-header">' +
+        '<span>' + esc(h.name) + '</span>' +
+        '<span style="font-size:0.75rem;color:var(--matcha)">' + (h.completed || 0) + ' / ' + h.points + ' SP (' + pct + '%)</span>' +
+      '</div>' +
+      (h.goal ? '<div class="history-card-goal">' + esc(h.goal) + '</div>' : '') +
+      '<div class="history-progress-bar"><div class="history-progress-fill" style="width:' + pct + '%"></div></div>' +
+      '<div class="history-card-stats">' +
+        '<span>Velocity: ' + (h.velocity || h.completed || 0) + ' SP</span>' +
+        '<span>' + (h.endDate || '') + '</span>' +
+      '</div>';
+    container.appendChild(card);
+  });
+}
+
+// ═══ DAILY STANDUP ═══
+function renderStandup() {
+  const list = document.getElementById('standupList');
+  if (!list) return;
+
+  if (!standups.length) {
+    list.innerHTML = '<div class="empty-standup"><span>📝</span><p>' + t('emptyStandup') + '</p></div>';
+    return;
+  }
+
+  list.innerHTML = '';
+  standups.forEach(su => {
+    const el = document.createElement('div');
+    el.className = 'standup-item';
+    el.innerHTML = 
+      '<div class="standup-text">' +
+        '<div class="standup-date">' + su.date + '</div>' +
+        esc(su.text) +
+      '</div>' +
+      '<button class="standup-delete" onclick="deleteStandup(\'' + su.id + '\')" title="Xóa">✕</button>';
+    list.appendChild(el);
+  });
+}
+
+function addStandupNote() {
+  const promptText = currentLang === 'vi' 
+    ? 'Ghi chú Daily Standup hôm nay:\n(1. Hôm qua đã làm gì?\n2. Hôm nay sẽ làm gì?\n3. Có khó khăn gì cản trở không?)'
+    : 'Daily Standup notes:\n(1. What was done yesterday?\n2. What will be done today?\n3. Any blockers?)';
+
+  const tVal = prompt(promptText);
+  if (tVal && tVal.trim()) {
+    standups.unshift({
+      id: 'su-' + Date.now(),
+      date: new Date().toLocaleDateString(currentLang === 'vi' ? 'vi-VN' : 'en-US', { weekday: 'short', day: '2-digit', month: '2-digit' }),
+      text: tVal.trim()
+    });
+    saveKanban();
+    renderStandup();
+    showToast(currentLang === 'vi' ? 'Đã lưu ghi chú Standup' : 'Saved Standup note', 'success');
+  }
+}
+
+function deleteStandup(id) {
+  standups = standups.filter(s => s.id !== id);
+  saveKanban();
+  renderStandup();
+}
+
+// ═══ RETROSPECTIVE (KPT) ═══
+function renderRetro() {
+  renderRetroCat('good', 'retroGood');
+  renderRetroCat('improve', 'retroImprove');
+  renderRetroCat('action', 'retroAction');
+}
+
+function renderRetroCat(key, cid) {
+  const c = document.getElementById(cid);
+  if (!c) return;
+
+  const items = retros[key] || [];
+  c.innerHTML = '';
+
+  if (!items.length) {
+    c.innerHTML = '<span style="font-size:0.7rem;color:var(--text-tertiary);padding:3px">' + t('retroEmpty') + '</span>';
+    return;
+  }
+
+  items.forEach((text, i) => {
+    const el = document.createElement('div');
+    el.className = 'retro-item';
+    el.innerHTML = '<span>' + esc(text) + '</span><button onclick="deleteRetroItem(\'' + key + '\',' + i + ')" title="Xóa">✕</button>';
+    c.appendChild(el);
+  });
+}
+
+function addRetroItem(cat) {
+  const prompts = {
+    good: currentLang === 'vi' ? 'Điều gì đã diễn ra tốt trong Sprint này?' : 'What went well in this Sprint?',
+    improve: currentLang === 'vi' ? 'Điều gì có thể cải thiện tốt hơn?' : 'What could be improved?',
+    action: currentLang === 'vi' ? 'Hành động cụ thể cho Sprint tiếp theo?' : 'Action items for next Sprint?'
+  };
+
+  const tVal = prompt(prompts[cat]);
+  if (tVal && tVal.trim()) {
+    if (!retros[cat]) retros[cat] = [];
+    retros[cat].push(tVal.trim());
+    saveKanban();
+    renderRetro();
+    showToast(currentLang === 'vi' ? 'Đã lưu nhận xét Retrospective' : 'Saved Retro note', 'success');
+  }
+}
+
+function deleteRetroItem(cat, i) {
+  if (retros[cat]) {
+    retros[cat].splice(i, 1);
+    saveKanban();
+    renderRetro();
+  }
+}
+
+// ═══ SPRINT CONFIG & END SPRINT ═══
+function openSprintModal() {
+  document.getElementById('sprintNameInput').value = currentSprint.name;
+  document.getElementById('sprintGoalInput').value = currentSprint.goal;
+  document.getElementById('sprintStart').value = currentSprint.startDate;
+  document.getElementById('sprintEnd').value = currentSprint.endDate;
+  document.getElementById('sprintModal').classList.add('active');
+}
+
+function closeSprintModal() {
+  document.getElementById('sprintModal').classList.remove('active');
+}
+
+function handleSprintSubmit(e) {
+  e.preventDefault();
+  currentSprint.name = document.getElementById('sprintNameInput').value.trim() || 'Sprint';
+  currentSprint.goal = document.getElementById('sprintGoalInput').value.trim();
+  currentSprint.startDate = document.getElementById('sprintStart').value;
+  currentSprint.endDate = document.getElementById('sprintEnd').value;
+
+  saveKanban();
+  renderAll();
+  closeSprintModal();
+  showToast(currentLang === 'vi' ? 'Đã lưu cấu hình Sprint' : 'Sprint settings saved', 'success');
+}
+
+function endCurrentSprint() {
+  const confirmMsg = currentLang === 'vi'
+    ? 'Bạn có chắc chắn muốn kết thúc ' + currentSprint.name + '? Các công việc hoàn thành sẽ được lưu vào lịch sử.'
+    : 'Are you sure you want to end ' + currentSprint.name + '? Completed tasks will be archived.';
+
+  if (!confirm(confirmMsg)) return;
+
+  const dp = tasks.filter(t => t.status === 'done').reduce((s, t) => s + (parseInt(t.points) || 0), 0);
+  const tp = tasks.reduce((s, t) => s + (parseInt(t.points) || 0), 0);
+
+  sprintHistory.push({
+    name: currentSprint.name,
+    goal: currentSprint.goal,
+    points: tp,
+    completed: dp,
+    velocity: dp,
+    endDate: new Date().toLocaleDateString(currentLang === 'vi' ? 'vi-VN' : 'en-US')
+  });
+
+  tasks = tasks.filter(t => t.status !== 'done');
+
+  const nn = (parseInt(currentSprint.name.replace(/\D/g, '')) || 1) + 1;
+  currentSprint = {
+    name: 'Sprint ' + nn,
+    goal: currentLang === 'vi' ? 'Mục tiêu cho Sprint mới' : 'Goal for new sprint',
+    startDate: fmtDate(0),
+    endDate: fmtDate(14),
+    status: 'active'
+  };
+
+  standups = [];
+  retros = { good: [], improve: [], action: [] };
+
+  saveKanban();
+  renderAll();
+  closeSprintModal();
+  showToast(currentLang === 'vi' ? '🎉 Chúc mừng! Đã kết thúc và khởi tạo Sprint ' + nn : 'Sprint finished and Sprint ' + nn + ' started!', 'success');
+}
+
+// ═══ TASK MODAL & CRUD ═══
+function openTaskModal(taskId = null) {
+  editTaskId = taskId;
+  document.getElementById('taskForm').reset();
+
+  document.querySelectorAll('#colorPicker .color-option').forEach(o => o.classList.remove('selected'));
+  const defColor = document.querySelector('#colorPicker .color-option[data-color="#F5F0E1"]');
+  if (defColor) defColor.classList.add('selected');
+
+  if (taskId) {
+    const task = tasks.find(t => t.id === taskId);
+    if (!task) return;
+
+    document.getElementById('modalTitle').textContent = t('modalEditTaskTitle');
+    document.getElementById('taskId').value = task.id;
+    document.getElementById('taskTitle').value = task.title;
+    document.getElementById('taskDesc').value = task.description || '';
+    document.getElementById('taskPriority').value = task.priority || 'medium';
+    document.getElementById('taskPoints').value = task.points || '3';
+    document.getElementById('taskStatus').value = task.status || 'todo';
+    document.getElementById('taskDueDate').value = task.dueDate || '';
+
+    document.querySelectorAll('#colorPicker .color-option').forEach(o => {
+      o.classList.toggle('selected', (o.dataset.color || '').toLowerCase() === (task.color || '').toLowerCase());
+    });
+  } else {
+    document.getElementById('modalTitle').textContent = t('modalAddTaskTitle');
+    document.getElementById('taskId').value = '';
+    document.getElementById('taskPoints').value = '3';
+    document.getElementById('taskPriority').value = 'medium';
+    document.getElementById('taskStatus').value = 'todo';
+  }
+
+  document.getElementById('taskModal').classList.add('active');
+  setTimeout(() => document.getElementById('taskTitle').focus(), 80);
+}
+
+function closeModal() {
+  document.getElementById('taskModal').classList.remove('active');
+  editTaskId = null;
+}
+
+function handleTaskSubmit(e) {
+  e.preventDefault();
+  const title = document.getElementById('taskTitle').value.trim();
+  if (!title) return;
+
+  const sel = document.querySelector('#colorPicker .color-option.selected');
+  const color = sel ? sel.dataset.color : '#F5F0E1';
+
+  const data = {
+    title: title,
+    description: document.getElementById('taskDesc').value.trim(),
+    priority: document.getElementById('taskPriority').value,
+    points: parseInt(document.getElementById('taskPoints').value) || 3,
+    color: color,
+    status: document.getElementById('taskStatus').value,
+    dueDate: document.getElementById('taskDueDate').value || null
+  };
+
+  const tid = document.getElementById('taskId').value;
+  if (editTaskId && tid) {
+    const i = tasks.findIndex(t => t.id === tid);
+    if (i !== -1) {
+      tasks[i] = { ...tasks[i], ...data };
+      showToast(currentLang === 'vi' ? 'Đã cập nhật "' + title + '"' : 'Updated "' + title + '"', 'success');
+    }
+  } else {
+    tasks.push({
+      id: 'task-' + Date.now(),
+      ...data,
+      createdAt: new Date().toISOString()
+    });
+    showToast(currentLang === 'vi' ? 'Đã thêm "' + title + '"' : 'Added "' + title + '"', 'success');
+  }
+
+  saveKanban();
+  renderAll();
+  closeModal();
+}
+
+function editTask(id) {
+  openTaskModal(id);
+}
+
+function requestDeleteTask(id) {
+  deleteTargetId = id;
+  document.getElementById('deleteModal').classList.add('active');
+}
+
+function closeDeleteModal() {
+  document.getElementById('deleteModal').classList.remove('active');
+  deleteTargetId = null;
+}
+
+function confirmDelete() {
+  if (!deleteTargetId) return;
+  const tObj = tasks.find(x => x.id === deleteTargetId);
+  tasks = tasks.filter(x => x.id !== deleteTargetId);
+  saveKanban();
+  renderAll();
+  closeDeleteModal();
+  showToast(currentLang === 'vi' ? 'Đã xóa "' + (tObj ? tObj.title : '') + '"' : 'Task deleted', 'info');
+}
+
+// ═══ NOON DONE PAGE LOGIC ═══
+const WEEKDAYS = ['Chủ nhật', 'Thứ hai', 'Thứ ba', 'Thứ tư', 'Thứ năm', 'Thứ sáu', 'Thứ bảy'];
+const MONTHS = ['tháng 1', 'tháng 2', 'tháng 3', 'tháng 4', 'tháng 5', 'tháng 6', 'tháng 7', 'tháng 8', 'tháng 9', 'tháng 10', 'tháng 11', 'tháng 12'];
+
+function updateDateDisplay() {
+  const n = new Date();
+  const dow = WEEKDAYS[n.getDay()];
+  const day = n.getDate();
+  const month = MONTHS[n.getMonth()];
+  const year = n.getFullYear();
+  const el = document.getElementById('dateDisplay');
+  if (el) el.textContent = dow + ', ' + day + ' ' + month + ' ' + year;
+}
+
+function updateGreeting() {
+  const name = localStorage.getItem('scrumban_user_name');
+  const greetingEl = document.getElementById('noonGreeting');
+  const subtitleEl = document.getElementById('headerSubtitle');
+
+  if (name && name.trim()) {
+    if (greetingEl) greetingEl.textContent = 'Chào ' + name.trim() + '! Buổi trưa nhìn lại — buổi chiều làm đúng';
+    if (subtitleEl) subtitleEl.textContent = 'Chào ' + name.trim() + ' · Kaizen Productivity';
+  } else {
+    if (greetingEl) greetingEl.textContent = 'Buổi trưa nhìn lại — buổi chiều làm đúng';
+    if (subtitleEl) subtitleEl.textContent = t('appSubtitle');
+  }
+}
+
+function switchNoonPage(page) {
+  document.querySelectorAll('.noon-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.noon-tab').forEach(t => t.classList.remove('active'));
+
+  const pEl = document.getElementById('npage-' + page);
+  if (pEl) pEl.classList.add('active');
+
+  const tEl = document.querySelector('.noon-tab[data-page="' + page + '"]');
+  if (tEl) tEl.classList.add('active');
+
+  if (page === 'review') renderWeekReview();
+  if (page === 'skills') renderSkillPage();
+}
+
+function renderNoonDaily() {
+  const k = todayKey();
+  const d = getNDDay(k);
+  renderNoonList('morning', d.morning);
+  renderNoonList('afternoon', d.afternoon);
+  renderPriority(d.priority);
+}
+
+function renderNoonList(type, items) {
+  const list = document.getElementById(type + 'List');
+  if (!list) return;
+  list.innerHTML = '';
+
+  items.forEach((item, i) => {
+    const li = document.createElement('li');
+    li.className = 'nd-todo-item' + (item.done ? ' done' : '');
+    li.innerHTML = 
+      '<input type="checkbox" ' + (item.done ? 'checked' : '') + ' class="nd-check" data-idx="' + i + '">' +
+      '<span class="todo-text">' + esc(item.text) + '</span>' +
+      '<button class="del-btn" data-idx="' + i + '" title="Xóa">✕</button>';
+
+    li.querySelector('.nd-check').addEventListener('change', () => toggleNoonTodo(type, i));
+    li.querySelector('.del-btn').addEventListener('click', () => deleteNoonTodo(type, i));
+    list.appendChild(li);
+  });
+}
+
+function addNoonTodo(type) {
+  const inp = document.getElementById(type + 'Input');
+  const text = inp.value.trim();
+  if (!text) return;
+
+  const k = todayKey();
+  const d = getNDDay(k);
+  d[type].push({ text: text, done: false });
+  saveNDDay(k, d);
+  inp.value = '';
+  renderNoonDaily();
+}
+
+function toggleNoonTodo(type, i) {
+  const k = todayKey();
+  const d = getNDDay(k);
+  d[type][i].done = !d[type][i].done;
+  saveNDDay(k, d);
+  renderNoonDaily();
+}
+
+function deleteNoonTodo(type, i) {
+  const k = todayKey();
+  const d = getNDDay(k);
+  d[type].splice(i, 1);
+  saveNDDay(k, d);
+  renderNoonDaily();
+}
+
+function renderPriority(p) {
+  const display = document.getElementById('priorityTask');
+  const row = document.getElementById('priorityInputRow');
+
+  if (p) {
+    display.innerHTML = esc(p);
+    display.classList.remove('empty');
+    row.innerHTML = 
+      '<span style="font-size:0.8rem;color:var(--text-tertiary);flex:1">Đã chọn xong 👆</span>' +
+      '<button onclick="clearPriority()" style="padding:6px 12px;border:1px solid var(--border-subtle);background:var(--bg-elevated);border-radius:8px;font-family:inherit;font-size:0.76rem;color:var(--text-secondary);cursor:pointer">Đổi việc khác</button>';
+  } else {
+    display.innerHTML = '<span class="empty">Chưa chọn — hãy quyết định 1 việc thôi!</span>';
+    row.innerHTML = 
+      '<input type="text" id="priorityInput" placeholder="Gõ việc quan trọng nhất..." onkeydown="if(event.key===\'Enter\') setPriority()">' +
+      '<button onclick="setPriority()">' + t('btnSelect') + '</button>';
+  }
+}
+
+function setPriority() {
+  const inp = document.getElementById('priorityInput');
+  if (!inp) return;
+  const tVal = inp.value.trim();
+  if (!tVal) return;
+
+  const k = todayKey();
+  const d = getNDDay(k);
+  d.priority = tVal;
+  saveNDDay(k, d);
+  renderNoonDaily();
+  showToast('⭐ Đã đặt việc ưu tiên cho chiều nay!', 'success');
+}
+
+function clearPriority() {
+  const k = todayKey();
+  const d = getNDDay(k);
+  d.priority = '';
+  saveNDDay(k, d);
+  renderNoonDaily();
+}
+
+// ═══ SKILLS PAGE ═══
+function renderSkillPage() {
+  const k = todayKey();
+  const d = getNDDay(k);
+  const sn = document.getElementById('skillName');
+  const btn = document.getElementById('skillDoneBtn');
+  const inpRow = document.getElementById('skillInputRow');
+  const str = document.getElementById('streakDisplay');
+
+  if (d.skill) {
+    sn.innerHTML = esc(d.skill);
+    sn.classList.remove('empty');
+    btn.style.display = 'inline-block';
+    inpRow.style.display = 'none';
+
+    if (d.skillDone) {
+      btn.textContent = '✓ Đã xong hôm nay!';
+      btn.classList.add('completed');
+    } else {
+      btn.textContent = '✓ Đánh dấu hoàn thành';
+      btn.classList.remove('completed');
+    }
+  } else {
+    const defaultSkill = localStorage.getItem('scrumban_default_skill');
+    if (defaultSkill && defaultSkill.trim()) {
+      document.getElementById('skillInput').value = defaultSkill.trim();
+    }
+    sn.innerHTML = '<span class="empty">Chưa chọn bài học hôm nay</span>';
+    btn.style.display = 'none';
+    inpRow.style.display = 'flex';
+  }
+
+  const streak = calcStreak();
+  if (streak > 0) {
+    str.style.display = 'flex';
+    document.getElementById('streakNum').textContent = streak;
+  } else {
+    str.style.display = 'none';
+  }
+
+  renderSkillCal('skillCalendar');
+}
+
+function setSkill() {
+  const inp = document.getElementById('skillInput');
+  const tVal = inp.value.trim();
+  if (!tVal) return;
+
+  const k = todayKey();
+  const d = getNDDay(k);
+  d.skill = tVal;
+  saveNDDay(k, d);
+  renderSkillPage();
+  showToast('🌱 Đã đặt bài học hôm nay!', 'success');
+}
+
+function quickSkill(text) {
+  const k = todayKey();
+  const d = getNDDay(k);
+  d.skill = text;
+  saveNDDay(k, d);
+  renderSkillPage();
+  showToast('🌱 Đã chọn: ' + text, 'success');
+}
+
+function markSkillDone() {
+  const k = todayKey();
+  const d = getNDDay(k);
+  d.skillDone = true;
+  saveNDDay(k, d);
+  renderSkillPage();
+  playZenChime();
+  showToast('🎉 Tuyệt vời! Bạn đã hoàn thành bài học hôm nay!', 'success');
+}
+
+function calcStreak() {
+  const s = getNDStore();
+  if (!s.days) return 0;
+  let streak = 0;
+  const d = new Date();
+
+  while (true) {
+    const k = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    if (s.days[k] && s.days[k].skillDone) {
+      streak++;
+      d.setDate(d.getDate() - 1);
+    } else {
+      break;
+    }
+  }
+  return streak;
+}
+
+function renderSkillCal(cid) {
+  const cal = document.getElementById(cid);
+  if (!cal) return;
+  cal.innerHTML = '';
+
+  const s = getNDStore();
+  const td = new Date();
+  const tk = todayKey();
+
+  for (let i = 29; i >= 0; i--) {
+    const d = new Date(td);
+    d.setDate(d.getDate() - i);
+    const k = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+
+    const done = s.days && s.days[k] && s.days[k].skillDone;
+    const isToday = k === tk;
+
+    const el = document.createElement('div');
+    el.className = 'skill-day' + (done ? ' done' : '') + (isToday ? ' today' : '');
+    el.textContent = d.getDate();
+    el.title = d.getDate() + '/' + (d.getMonth() + 1) + (done ? ' — Đã học ✓' : ' — Chưa học');
+    cal.appendChild(el);
+  }
+}
+
+// ═══ WEEKLY REVIEW ═══
+let reviewOff = 0;
+
+function getWeekDates(off) {
+  const td = new Date();
+  const dow = td.getDay();
+  const mon = new Date(td);
+  mon.setDate(td.getDate() - (dow === 0 ? 6 : dow - 1) + (off * 7));
+
+  const dates = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(mon);
+    d.setDate(mon.getDate() + i);
+    dates.push(d);
+  }
+  return dates;
+}
+
+function changeWeek(dir) {
+  reviewOff += dir;
+  if (reviewOff > 0) reviewOff = 0;
+  renderWeekReview();
+}
+
+function renderWeekReview() {
+  const dates = getWeekDates(reviewOff);
+  const s = getNDStore();
+
+  document.getElementById('weekLabel').textContent = 
+    dates[0].getDate() + '/' + (dates[0].getMonth() + 1) + ' — ' + 
+    dates[6].getDate() + '/' + (dates[6].getMonth() + 1) + '/' + dates[6].getFullYear();
+
+  let totalDn = 0;
+  let skillD = 0;
+  let activeD = 0;
+
+  const tl = document.getElementById('weekTimeline');
+  tl.innerHTML = '';
+
+  dates.forEach(d => {
+    const k = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+    const dd = (s.days && s.days[k]) || null;
+    const dow = WEEKDAYS[d.getDay()];
+
+    const div = document.createElement('div');
+    div.className = 'day-review';
+
+    if (dd) {
+      const md = (dd.morning || []).filter(i => i.done).length;
+      const mt = (dd.morning || []).length;
+      const ad = (dd.afternoon || []).filter(i => i.done).length;
+      const at = (dd.afternoon || []).length;
+
+      totalDn += md + ad;
+      if (dd.skillDone) skillD++;
+      if (mt > 0 || at > 0 || dd.skill) activeD++;
+
+      let h = '<div class="day-label">' + dow + ' — ' + d.getDate() + '/' + (d.getMonth() + 1) + '</div><div class="day-content">';
+      if (dd.priority) {
+        h += '<div class="section-label">⭐ Ưu tiên</div><p style="margin-bottom:5px">' + esc(dd.priority) + '</p>';
+      }
+      if (mt > 0) {
+        h += '<div class="section-label">☀️ Sáng</div><ul>';
+        dd.morning.forEach(i => {
+          h += '<li class="' + (i.done ? 'done-item' : 'undone-item') + '">' + esc(i.text) + '</li>';
+        });
+        h += '</ul>';
+      }
+      if (at > 0) {
+        h += '<div class="section-label">🌤️ Chiều</div><ul>';
+        dd.afternoon.forEach(i => {
+          h += '<li class="' + (i.done ? 'done-item' : 'undone-item') + '">' + esc(i.text) + '</li>';
+        });
+        h += '</ul>';
+      }
+      if (dd.skill) {
+        h += '<div class="skill-badge">' + (dd.skillDone ? '✓' : '○') + ' ' + esc(dd.skill) + '</div>';
+      }
+      if (!mt && !at && !dd.skill && !dd.priority) {
+        h += '<p style="color:var(--text-tertiary);font-style:italic">Không có ghi chú</p>';
+      }
+      h += '</div>';
+      div.innerHTML = h;
+    } else {
+      div.innerHTML = '<div class="day-label">' + dow + ' — ' + d.getDate() + '/' + (d.getMonth() + 1) + '</div><div class="day-content"><p style="color:var(--text-tertiary);font-style:italic">Không có ghi chú</p></div>';
+    }
+    tl.appendChild(div);
+  });
+
+  document.getElementById('nStatDone').textContent = totalDn;
+  document.getElementById('nStatSkill').textContent = skillD;
+  document.getElementById('nStatActive').textContent = activeD;
+
+  const wk = 'week_' + dates[0].toISOString().slice(0, 10);
+  const refs = s.reflections || {};
+  document.getElementById('reflectionText').value = refs[wk] || '';
+}
+
+function saveReflection() {
+  const dates = getWeekDates(reviewOff);
+  const wk = 'week_' + dates[0].toISOString().slice(0, 10);
+  const s = getNDStore();
+  if (!s.reflections) s.reflections = {};
+  s.reflections[wk] = document.getElementById('reflectionText').value;
+  saveNDStore(s);
+}
+
+// ═══ DASHBOARD METRICS & CHARTS ═══
+function renderDashboard() {
+  const totalTasks = tasks.length;
+  const doneTasks = tasks.filter(t => t.status === 'done').length;
+  const streak = calcStreak();
+  const totalSPDone = tasks.filter(t => t.status === 'done').reduce((s, t) => s + (parseInt(t.points) || 0), 0);
+
+  document.getElementById('dTotalTasks').textContent = totalTasks;
+  document.getElementById('dDoneTasks').textContent = doneTasks;
+  document.getElementById('dSkillStreak').textContent = streak;
+  document.getElementById('dTotalSP').textContent = totalSPDone;
+
+  document.getElementById('dashSprintName').textContent = currentSprint.name;
+  document.getElementById('dashSprintGoal').textContent = currentSprint.goal || '—';
+
+  const tp = tasks.reduce((s, t) => s + (parseInt(t.points) || 0), 0);
+  const pct = tp > 0 ? Math.round((totalSPDone / tp) * 100) : 0;
+  document.getElementById('dashPercent').textContent = pct + '%';
+  const dc = document.getElementById('dashProgressCircle');
+  if (dc) dc.style.strokeDashoffset = 264 - (pct / 100) * 264;
+
+  renderSkillCal('dashSkillCal');
+  const infoEl = document.getElementById('dashStreakInfo');
+  if (infoEl) {
+    infoEl.innerHTML = streak > 0 
+      ? '<span style="font-size:1.2rem">🔥</span> <span style="color:var(--amber);font-weight:700">' + streak + ' ngày</span> kỷ luật liên tục'
+      : '<span style="color:var(--text-tertiary);font-size:0.85rem">Hãy hoàn thành bài học hôm nay để bắt đầu chuỗi!</span>';
+  }
+
+  const qEl = document.getElementById('dashQuote');
+  if (qEl) qEl.textContent = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+
+  renderWeeklyChart();
+}
+
+function renderWeeklyChart() {
+  const canvas = document.getElementById('weeklyChart');
+  if (!canvas) return;
+
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width;
+  const h = canvas.height;
+  ctx.clearRect(0, 0, w, h);
+
+  const px = 40, py = 20, cw = w - px * 2, ch = h - py * 2;
+  const s = getNDStore();
+  const data = [];
+  const td = new Date();
+
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(td);
+    d.setDate(d.getDate() - i);
+    const k = d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0');
+
+    // Count Noon Done
+    const dd = (s.days && s.days[k]) || null;
+    let count = 0;
+    if (dd) {
+      count += (dd.morning || []).filter(x => x.done).length + (dd.afternoon || []).filter(x => x.done).length;
+      if (dd.skillDone) count += 1;
+    }
+
+    // Count Kanban completed on that date
+    tasks.forEach(t => {
+      if (t.status === 'done' && t.completedAt && t.completedAt.slice(0, 10) === k) {
+        count += 1;
+      }
+    });
+
+    data.push({ label: d.getDate() + '/' + (d.getMonth() + 1), value: count });
+  }
+
+  const maxV = Math.max(...data.map(d => d.value), 4);
+
+  // Background Grid Lines
+  ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)';
+  ctx.lineWidth = 1;
+  for (let i = 0; i <= 4; i++) {
+    const y = py + (ch / 4) * i;
+    ctx.beginPath();
+    ctx.moveTo(px, y);
+    ctx.lineTo(px + cw, y);
+    ctx.stroke();
+  }
+
+  // Draw Bars
+  const bw = (cw / data.length) * 0.55;
+  data.forEach((d, i) => {
+    const x = px + (cw / data.length) * (i + 0.5) - bw / 2;
+    const bh = (d.value / maxV) * ch;
+    const y = py + ch - bh;
+
+    const grad = ctx.createLinearGradient(x, y, x, y + bh);
+    grad.addColorStop(0, '#c48b48');
+    grad.addColorStop(1, '#689f78');
+
+    ctx.fillStyle = d.value > 0 ? grad : 'rgba(255,255,255,0.06)';
+    ctx.beginPath();
+    if (ctx.roundRect) {
+      ctx.roundRect(x, y, bw, Math.max(bh, 4), 4);
+    } else {
+      ctx.rect(x, y, bw, Math.max(bh, 4));
+    }
+    ctx.fill();
+
+    ctx.fillStyle = '#6f717d';
+    ctx.font = '9px "Be Vietnam Pro"';
+    ctx.textAlign = 'center';
+    ctx.fillText(d.label, x + bw / 2, py + ch + 14);
+
+    if (d.value > 0) {
+      ctx.fillStyle = '#edebe8';
+      ctx.font = 'bold 10px "Be Vietnam Pro"';
+      ctx.fillText(d.value, x + bw / 2, y - 4);
+    }
+  });
+}
+
+// ═══ MOTIVATIONAL QUOTES ═══
+const QUOTES = [
+  '"Mỗi ngày tiến bộ 1%, sau một năm bạn sẽ giỏi hơn 37 lần." — James Clear',
+  '"Làm ít mà đúng, tốt hơn làm nhiều mà sai."',
+  '"Buổi chiều là cơ hội thứ hai của ngày hôm nay."',
+  '"Đừng so sánh với người khác. Hãy so với bản thân ngày hôm qua."',
+  '"Thói quen nhỏ, thay đổi lớn."',
+  '"Bận rộn ≠ Hiệu quả. Hãy chọn đúng 1 việc quan trọng nhất."',
+  '"Hôm nay bạn đã làm tốt hơn bạn nghĩ đấy! 🌟"',
+  '"Mỗi bước nhỏ đều đáng được ghi nhận."',
+  '"Điều quan trọng nhất không phải là tốc độ, mà là hướng đi."',
+  '"Không ai quay lại để bắt đầu lại từ đầu, nhưng ai cũng có thể bắt đầu từ hôm nay."'
+];
+
+function showQuote() {
+  const el = document.getElementById('quoteBar');
+  if (el) el.textContent = QUOTES[Math.floor(Math.random() * QUOTES.length)];
+}
+
+// ═══ POMODORO TIMER ENGINE & ZEN SOUND ═══
+let pomoSecs = 25 * 60;
+let pomoRunning = false;
+let pomoInterval = null;
+let pomoIsWork = true;
+
+function togglePomoPanel() {
+  const f = document.getElementById('pomoFloat');
+  const tBtn = document.getElementById('pomoToggle');
+  f.classList.toggle('hidden');
+  tBtn.style.display = f.classList.contains('hidden') ? 'flex' : 'none';
+}
+
+function togglePomo() {
+  if (pomoRunning) {
+    clearInterval(pomoInterval);
+    pomoRunning = false;
+    document.getElementById('pomoStartBtn').textContent = '▶';
+    document.getElementById('pomoStartBtn').classList.remove('active');
+  } else {
+    pomoRunning = true;
+    document.getElementById('pomoStartBtn').textContent = '⏸';
+    document.getElementById('pomoStartBtn').classList.add('active');
+
+    pomoInterval = setInterval(() => {
+      pomoSecs--;
+      if (pomoSecs < 0) {
+        clearInterval(pomoInterval);
+        pomoRunning = false;
+        playZenChime();
+
+        if (pomoIsWork) {
+          pomoIsWork = false;
+          pomoSecs = 5 * 60;
+          showToast('🍅 Hoàn thành 25 phút làm việc! Hãy nghỉ ngơi 5 phút.', 'success');
+        } else {
+          pomoIsWork = true;
+          pomoSecs = 25 * 60;
+          showToast('🍅 Hết giờ nghỉ! Sẵn sàng cho phiên tập trung tiếp theo.', 'info');
+        }
+
+        document.getElementById('pomoStartBtn').textContent = '▶';
+        document.getElementById('pomoStartBtn').classList.remove('active');
+      }
+      updatePomoDisplay();
+    }, 1000);
+  }
+}
+
+function resetPomo() {
+  clearInterval(pomoInterval);
+  pomoRunning = false;
+  pomoIsWork = true;
+  pomoSecs = 25 * 60;
+  document.getElementById('pomoStartBtn').textContent = '▶';
+  document.getElementById('pomoStartBtn').classList.remove('active');
+  updatePomoDisplay();
+}
+
+function togglePomoMode() {
+  clearInterval(pomoInterval);
+  pomoRunning = false;
+  pomoIsWork = !pomoIsWork;
+  pomoSecs = pomoIsWork ? 25 * 60 : 5 * 60;
+  document.getElementById('pomoStartBtn').textContent = '▶';
+  document.getElementById('pomoStartBtn').classList.remove('active');
+  updatePomoDisplay();
+  showToast(pomoIsWork ? '🍅 Chế độ làm việc (25m)' : '☕ Chế độ nghỉ ngơi (5m)', 'info');
+}
+
+function updatePomoDisplay() {
+  const m = Math.floor(pomoSecs / 60);
+  const s = pomoSecs % 60;
+  document.getElementById('pomoTime').textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+  document.getElementById('pomoLabel').textContent = pomoIsWork ? 'WORK (25M)' : 'BREAK (5M)';
+}
+
+// Pure Web Audio API synthesized Zen Bell / Singing Bowl Chime
+function playZenChime() {
+  const soundEnabled = localStorage.getItem('scrumban_pomo_sound') !== 'false';
+  if (!soundEnabled) return;
+
+  try {
+    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(528, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(264, ctx.currentTime + 1.8);
+
+    gain.gain.setValueAtTime(0.35, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 1.8);
+
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+
+    osc.start();
+    osc.stop(ctx.currentTime + 1.8);
+  } catch (err) {
+    console.warn('Audio chime error:', err);
+  }
+}
+
+// ═══ QUICK SEARCH ENGINE (Ctrl+K) ═══
+function openSearch() {
+  document.getElementById('searchOverlay').classList.add('active');
+  document.getElementById('searchInput').value = '';
+  document.getElementById('searchResults').innerHTML = '<div class="search-hint">' + t('searchHint') + '</div>';
+  setTimeout(() => document.getElementById('searchInput').focus(), 100);
+}
+
+function closeSearch() {
+  document.getElementById('searchOverlay').classList.remove('active');
+}
+
+function doSearch(q) {
+  q = q.toLowerCase().trim();
+  const res = document.getElementById('searchResults');
+  if (!q) {
+    res.innerHTML = '<div class="search-hint">' + t('searchHint') + '</div>';
+    return;
+  }
+
+  const results = [];
+
+  // Search Kanban tasks
+  tasks.forEach(t => {
+    if ((t.title + ' ' + (t.description || '')).toLowerCase().includes(q)) {
+      results.push({ type: 'Kanban', text: t.title, sub: 'Cột: ' + t.status, id: t.id });
+    }
+  });
+
+  // Search Backlog
+  backlog.forEach(b => {
+    if ((b.title + ' ' + (b.description || '')).toLowerCase().includes(q)) {
+      results.push({ type: 'Backlog', text: b.title, sub: 'Backlog', id: b.id });
+    }
+  });
+
+  // Search Noon Done
+  const s = getNDStore();
+  if (s.days) {
+    Object.keys(s.days).forEach(k => {
+      const d = s.days[k];
+      (d.morning || []).forEach(item => {
+        if (item.text.toLowerCase().includes(q)) {
+          results.push({ type: 'Sáng', text: item.text, sub: k });
+        }
+      });
+      (d.afternoon || []).forEach(item => {
+        if (item.text.toLowerCase().includes(q)) {
+          results.push({ type: 'Chiều', text: item.text, sub: k });
+        }
+      });
+      if (d.skill && d.skill.toLowerCase().includes(q)) {
+        results.push({ type: 'Kỹ năng', text: d.skill, sub: k });
+      }
+      if (d.priority && d.priority.toLowerCase().includes(q)) {
+        results.push({ type: 'Ưu tiên', text: d.priority, sub: k });
+      }
+    });
+  }
+
+  if (!results.length) {
+    res.innerHTML = '<div class="search-hint">Không tìm thấy kết quả phù hợp</div>';
+    return;
+  }
+
+  res.innerHTML = '';
+  results.slice(0, 10).forEach(r => {
+    const el = document.createElement('div');
+    el.className = 'search-item';
+    el.innerHTML = 
+      '<span class="search-type">' + r.type + '</span>' +
+      '<span style="flex:1">' + esc(r.text) + '</span>' +
+      '<span style="font-size:0.7rem;color:var(--text-tertiary)">' + r.sub + '</span>';
+
+    el.onclick = () => {
+      closeSearch();
+      if (r.type === 'Kanban') {
+        switchView('kanban');
+        setTimeout(() => {
+          const target = document.getElementById(r.id);
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            target.style.outline = '2px solid var(--amber)';
+            setTimeout(() => { target.style.outline = ''; }, 2000);
+          }
+        }, 150);
+      } else if (r.type === 'Backlog') {
+        switchView('kanban');
+        switchScrumTab('backlog');
+      } else {
+        switchView('noon');
+      }
+    };
+    res.appendChild(el);
+  });
+}
+
+// ═══ SETTINGS & DATA BACKUP / RESTORE ═══
+function openSettingsModal() {
+  document.getElementById('settingsName').value = localStorage.getItem('scrumban_user_name') || '';
+  document.getElementById('settingsDefaultSkill').value = localStorage.getItem('scrumban_default_skill') || '';
+  document.getElementById('settingsWipLimit').value = localStorage.getItem('scrumban_wip_limit') || '3';
+  document.getElementById('settingsPomoSound').value = localStorage.getItem('scrumban_pomo_sound') !== 'false' ? 'true' : 'false';
+  document.getElementById('settingsModal').classList.add('active');
+}
+
+function closeSettingsModal() {
+  document.getElementById('settingsModal').classList.remove('active');
+}
+
+function saveSettings() {
+  const name = document.getElementById('settingsName').value.trim();
+  const defaultSkill = document.getElementById('settingsDefaultSkill').value.trim();
+  const wipLimit = parseInt(document.getElementById('settingsWipLimit').value) || 3;
+  const pomoSound = document.getElementById('settingsPomoSound').value;
+
+  localStorage.setItem('scrumban_user_name', name);
+  localStorage.setItem('scrumban_default_skill', defaultSkill);
+  localStorage.setItem('scrumban_wip_limit', wipLimit);
+  localStorage.setItem('scrumban_pomo_sound', pomoSound);
+
+  updateGreeting();
+  renderKanbanColumns();
+  closeSettingsModal();
+  showToast(currentLang === 'vi' ? 'Đã lưu cài đặt thành công!' : 'Settings saved successfully!', 'success');
+}
+
+function exportAllData() {
+  const data = {
+    appName: 'Scrumban & Noon Done',
+    version: '2.0',
+    exportedAt: new Date().toISOString(),
+    kanban: {
+      tasks: tasks,
+      sprint: currentSprint,
+      backlog: backlog,
+      standups: standups,
+      retros: retros,
+      history: sprintHistory
+    },
+    noonDone: getNDStore(),
+    settings: {
+      userName: localStorage.getItem('scrumban_user_name') || '',
+      defaultSkill: localStorage.getItem('scrumban_default_skill') || '',
+      pomoSound: localStorage.getItem('scrumban_pomo_sound') !== 'false',
+      wipLimit: parseInt(localStorage.getItem('scrumban_wip_limit')) || 3,
+      lang: currentLang,
+      scrumEnabled: isScrumEnabled
+    }
+  };
+
+  const jsonStr = JSON.stringify(data, null, 2);
+  const blob = new Blob([jsonStr], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'scrumban_noon_done_backup_' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  showToast(currentLang === 'vi' ? 'Đã xuất file sao lưu JSON thành công!' : 'Backup JSON exported successfully!', 'success');
+}
+
+function importDataFile(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+      if (data.kanban) {
+        if (Array.isArray(data.kanban.tasks)) tasks = data.kanban.tasks;
+        if (data.kanban.sprint) currentSprint = data.kanban.sprint;
+        if (Array.isArray(data.kanban.backlog)) backlog = data.kanban.backlog;
+        if (Array.isArray(data.kanban.standups)) standups = data.kanban.standups;
+        if (data.kanban.retros) retros = data.kanban.retros;
+        if (Array.isArray(data.kanban.history)) sprintHistory = data.kanban.history;
+        saveKanban();
+      }
+
+      if (data.noonDone && typeof data.noonDone === 'object') {
+        saveNDStore(data.noonDone);
+      }
+
+      if (data.settings) {
+        if (data.settings.userName) localStorage.setItem('scrumban_user_name', data.settings.userName);
+        if (data.settings.defaultSkill) localStorage.setItem('scrumban_default_skill', data.settings.defaultSkill);
+        if (data.settings.pomoSound !== undefined) localStorage.setItem('scrumban_pomo_sound', data.settings.pomoSound);
+        if (data.settings.wipLimit) localStorage.setItem('scrumban_wip_limit', data.settings.wipLimit);
+      }
+
+      updateGreeting();
+      renderAll();
+      renderNoonDaily();
+      closeSettingsModal();
+      showToast(currentLang === 'vi' ? 'Khôi phục dữ liệu từ file thành công!' : 'Data imported successfully!', 'success');
+    } catch (err) {
+      alert('File JSON không hợp lệ: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+}
+
+function resetToSampleData() {
+  if (!confirm('Khôi phục lại dữ liệu mẫu ban đầu?')) return;
+  localStorage.removeItem('kanban_zen_tasks');
+  localStorage.removeItem('scrum_zen_sprint');
+  localStorage.removeItem('scrum_zen_backlog');
+  localStorage.removeItem('scrum_zen_standups');
+  localStorage.removeItem('scrum_zen_retros');
+  localStorage.removeItem('scrum_zen_history');
+  loadKanban();
+  renderAll();
+  closeSettingsModal();
+  showToast('Đã khôi phục dữ liệu mẫu', 'info');
+}
+
+function clearAllData() {
+  if (confirm('BẠN CÓ CHẮC CHẮN MUỐN XÓA TOÀN BỘ DỮ LIỆU?\nHành động này sẽ xóa sạch cả Kanban và Noon Done!')) {
+    localStorage.clear();
+    location.reload();
+  }
+}
+
+function closeShortcuts() {
+  document.getElementById('shortcutsModal').classList.remove('active');
+}
+
+// ═══ INTERACTIVE ONBOARDING TOUR ═══
+const TOUR_STEPS = [
+  {
+    target: '#mainNav',
+    vi: {
+      title: '🌟 3 Không gian làm việc thông minh',
+      desc: 'Chuyển đổi linh hoạt giữa <b>📋 Kanban</b> (quản lý công việc), <b>☀️ Noon Done</b> (rèn luyện thói quen & nhìn lại mỗi trưa), và <b>📊 Dashboard</b> (tổng quan tiến độ).'
+    },
+    en: {
+      title: '🌟 3 Unified Productivity Workspaces',
+      desc: 'Seamlessly switch between <b>📋 Kanban</b> (visual workflow), <b>☀️ Noon Done</b> (midday reflection & daily habits), and <b>📊 Dashboard</b> (cross-app analytics).'
+    }
+  },
+  {
+    target: '#kanbanBoard',
+    vi: {
+      title: '📋 Bảng Kanban & Quy tắc WIP Limit',
+      desc: '3 cột: <b>Cần làm (To Do)</b> ➡️ <b>Đang làm (Doing)</b> ➡️ <b>Hoàn thành (Done)</b>. Bạn có thể kéo thả sticky note dễ dàng. Cột Doing có <b>giới hạn WIP (3 việc)</b> giúp bạn tập trung hoàn thành trước khi nhận thêm.'
+    },
+    en: {
+      title: '📋 Kanban Board & WIP Limit Rule',
+      desc: '3 visual columns: <b>To Do</b> ➡️ <b>Doing</b> ➡️ <b>Done</b>. Drag & drop notes. The Doing column has a <b>WIP Limit (3 tasks)</b> to help you finish before starting new work.'
+    }
+  },
+  {
+    target: '#btnScrumToggle',
+    vi: {
+      title: '⚡ Chuyển đổi linh hoạt Scrum / Simple',
+      desc: 'Bật khi bạn cần quản lý Sprint 14 ngày, biểu đồ <b>Burndown Chart</b>, <b>Product Backlog</b>, <b>Standup</b> và <b>Retrospective</b>. Tắt khi bạn chỉ muốn bảng Kanban tối giản.'
+    },
+    en: {
+      title: '⚡ Toggle Scrum / Simple Mode',
+      desc: 'Turn on for 14-day Sprint cadence, <b>Burndown Charts</b>, <b>Backlogs</b>, <b>Standups</b> and <b>Retro</b>. Turn off anytime for minimalist Kanban.'
+    }
+  },
+  {
+    target: '#pomoToggle',
+    vi: {
+      title: '🍅 Đồng hồ Pomodoro & Chuông Zen',
+      desc: 'Duy trì sự tập trung tối đa với nhịp điệu 25 phút làm việc / 5 phút nghỉ ngơi. Đi kèm chuông thiền Zen thư giãn và phím tắt nhanh <code>P</code>.'
+    },
+    en: {
+      title: '🍅 Pomodoro Timer with Zen Chime',
+      desc: 'Maintain deep focus with 25m work / 5m break cadence. Features a peaceful synthesized Tibetan chime and quick key <code>P</code>.'
+    }
+  },
+  {
+    target: '.btn-search-trigger',
+    vi: {
+      title: '🔍 Tìm kiếm tức thì toàn bộ app (Ctrl+K)',
+      desc: 'Nhấn <code>Ctrl + K</code> để tìm kiếm nhanh mọi nhiệm vụ trong Kanban, mục ghi chú sáng/chiều của Noon Done, mục tiêu kỹ năng hay thẻ backlog.'
+    },
+    en: {
+      title: '🔍 Global Quick Search (Ctrl+K)',
+      desc: 'Press <code>Ctrl + K</code> to instantly search across Kanban cards, Noon Done morning/afternoon items, skill goals, and backlog stories.'
+    }
+  },
+  {
+    target: '#btnOpenSettings',
+    vi: {
+      title: '⚙️ Cài đặt & Sao lưu dữ liệu dự phòng',
+      desc: 'Tùy biến tên người dùng, mục tiêu học tập mặc định, và đặc biệt là <b>Xuất file JSON sao lưu</b> để bạn không bao giờ lo mất dữ liệu công việc!'
+    },
+    en: {
+      title: '⚙️ Settings & Secure JSON Backup',
+      desc: 'Personalize your greeting name, default skill goal, and <b>Export JSON backups</b> so you never lose your productivity history!'
+    }
+  }
+];
+
+let isTourActive = false;
+let currentTourStep = 0;
+
+function startOnboardingTour() {
+  isTourActive = true;
+  currentTourStep = 0;
+  document.body.classList.add('tour-active');
+  renderTourStep();
+}
+
+function renderTourStep() {
+  const step = TOUR_STEPS[currentTourStep];
+  if (!step) return;
+
+  let target = document.querySelector(step.target);
+  if (!target) target = document.querySelector('.app-header') || document.body;
+
+  target.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+  setTimeout(() => {
+    const rect = target.getBoundingClientRect();
+    const spotlight = document.getElementById('tourSpotlight');
+    const popover = document.getElementById('tourPopover');
+
+    if (!spotlight || !popover) return;
+
+    const pad = 8;
+    spotlight.style.top = Math.max(0, rect.top - pad) + 'px';
+    spotlight.style.left = Math.max(0, rect.left - pad) + 'px';
+    spotlight.style.width = (rect.width + pad * 2) + 'px';
+    spotlight.style.height = (rect.height + pad * 2) + 'px';
+
+    const stepData = step[currentLang] || step.vi;
+    const badgeEl = document.getElementById('tourStepBadge');
+    if (badgeEl) badgeEl.textContent = (currentLang === 'vi' ? 'Bước ' : 'Step ') + (currentTourStep + 1) + ' / ' + TOUR_STEPS.length;
+
+    const titleEl = document.getElementById('tourTitle');
+    if (titleEl) titleEl.innerHTML = stepData.title;
+
+    const descEl = document.getElementById('tourDesc');
+    if (descEl) descEl.innerHTML = stepData.desc;
+
+    const prevBtn = document.getElementById('tourBtnPrev');
+    const nextBtn = document.getElementById('tourBtnNext');
+
+    if (prevBtn) {
+      prevBtn.style.display = currentTourStep === 0 ? 'none' : 'inline-flex';
+      prevBtn.textContent = t('tourBtnPrev');
+    }
+
+    if (nextBtn) {
+      nextBtn.textContent = currentTourStep === TOUR_STEPS.length - 1 ? t('tourBtnFinish') : t('tourBtnNext');
+    }
+
+    const popW = 360;
+    const popH = popover.offsetHeight || 190;
+    const winW = window.innerWidth;
+    const winH = window.innerHeight;
+
+    let popLeft = rect.left + rect.width / 2 - popW / 2;
+    if (popLeft < 16) popLeft = 16;
+    if (popLeft + popW > winW - 16) popLeft = winW - popW - 16;
+
+    let popTop = rect.bottom + pad + 12;
+    if (popTop + popH > winH - 16) {
+      popTop = Math.max(16, rect.top - pad - popH - 12);
+    }
+
+    popover.style.top = popTop + 'px';
+    popover.style.left = popLeft + 'px';
+  }, 60);
+}
+
+function nextTourStep() {
+  if (currentTourStep >= TOUR_STEPS.length - 1) {
+    closeTour();
+    showToast(currentLang === 'vi' ? '🎉 Chúc bạn làm việc tràn đầy cảm hứng và hiệu quả!' : 'Enjoy your productivity journey!', 'success');
+  } else {
+    currentTourStep++;
+    renderTourStep();
+  }
+}
+
+function prevTourStep() {
+  if (currentTourStep > 0) {
+    currentTourStep--;
+    renderTourStep();
+  }
+}
+
+function closeTour() {
+  isTourActive = false;
+  document.body.classList.remove('tour-active');
+  localStorage.setItem('scrumban_tour_seen', 'true');
+}
+
+// ═══ UTILITIES & TOASTS ═══
+function esc(str) {
+  if (!str) return '';
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+function showToast(msg, type = 'info') {
+  const c = document.getElementById('toastContainer');
+  if (!c) return;
+
+  const tEl = document.createElement('div');
+  tEl.className = 'toast toast-' + type;
+
+  const icons = { success: '🌸', info: '🍵', warning: '🍂', error: '🎋' };
+  tEl.innerHTML = '<span>' + (icons[type] || '🍵') + '</span> ' + msg;
+  c.appendChild(tEl);
+
+  setTimeout(() => {
+    tEl.classList.add('toast-out');
+    setTimeout(() => tEl.remove(), 260);
+  }, 2800);
+}
+
+// ═══ INITIALIZATION & EVENT LISTENERS ═══
+document.addEventListener('DOMContentLoaded', () => {
+  loadKanban();
+  updateGreeting();
+  updateScrumUI();
+  renderAll();
+  updateDateDisplay();
+  renderNoonDaily();
+  showQuote();
+  updatePomoDisplay();
+  startTipTimer();
+
+  // Restore active view
+  if (activeView && activeView !== 'kanban') {
+    switchView(activeView);
+  }
+
+  // Language buttons
+  document.querySelectorAll('.lang-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.dataset.lang === currentLang);
+  });
+
+  // Forms submit
+  document.getElementById('taskForm').addEventListener('submit', handleTaskSubmit);
+  document.getElementById('sprintForm').addEventListener('submit', handleSprintSubmit);
+  document.getElementById('backlogForm').addEventListener('submit', handleBacklogSubmit);
+  document.getElementById('btnConfirmDelete').addEventListener('click', confirmDelete);
+
+  // Color picker selection
+  document.querySelectorAll('#colorPicker .color-option').forEach(opt => {
+    opt.addEventListener('click', () => {
+      document.querySelectorAll('#colorPicker .color-option').forEach(o => o.classList.remove('selected'));
+      opt.classList.add('selected');
+    });
+  });
+
+  // Global Keyboard Shortcuts
+  document.addEventListener('keydown', (e) => {
+    const isModalOpen = document.querySelector('.modal-overlay.active') || document.querySelector('.search-overlay.active');
+
+    if (e.key === 'Escape') {
+      document.querySelectorAll('.modal-overlay').forEach(m => m.classList.remove('active'));
+      closeSearch();
+      closeShortcuts();
+      if (isTourActive) closeTour();
+      return;
+    }
+
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'n') {
+      e.preventDefault();
+      openTaskModal();
+      return;
+    }
+
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault();
+      openSearch();
+      return;
+    }
+
+    if (isModalOpen) return;
+
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return;
+
+    if (e.key === '?') {
+      document.getElementById('shortcutsModal').classList.add('active');
+      return;
+    }
+
+    if (e.key === '1') switchView('kanban');
+    if (e.key === '2') switchView('noon');
+    if (e.key === '3') switchView('dashboard');
+    if (e.key.toLowerCase() === 'p') togglePomoPanel();
+  });
+
+  window.addEventListener('resize', () => {
+    renderBurndown();
+    if (isTourActive) renderTourStep();
+  });
+
+  // Tour prompt for first-time users
+  if (!localStorage.getItem('scrumban_tour_seen')) {
+    setTimeout(startOnboardingTour, 1200);
+  }
+});
+
+  </script>
+</body>
+</html>
