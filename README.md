@@ -7,8 +7,7 @@
 
 ## 🌟 Tổng quan tính năng hợp nhất
 
-Ứng dụng được đóng gói hoàn chỉnh trong một file duy nhất:  
-`c:\Users\wolfg\Downloads\Antigravity\Scrumban & Noon Done\index.html` (chạy trực tiếp trên mọi trình duyệt, offline 100%, không cần cài đặt thêm).
+Ứng dụng được đóng gói hoàn chỉnh trong một file duy nhất.
 
 ### 1. 📋 Không gian Kanban & Agile Scrumban
 - **3 Cột Kanban trực quan**: 待機 (Cần làm) ➡️ 進行 (Đang làm) ➡️ 完了 (Hoàn thành).
@@ -94,13 +93,6 @@
 
 ---
 
-## 📂 Cấu trúc thư mục
-
-```
-c:\Users\wolfg\Downloads\Antigravity\
-├── Kanbanboard\                 # Ứng dụng gốc Kanban
-├── Noon Done\                   # Ứng dụng gốc Noon Done
-└── Scrumban & Noon Done\        # ỨNG DỤNG HỢP NHẤT HOÀN CHỈNH
     ├── index.html               # File ứng dụng duy nhất (HTML + CSS + JS)
     └── README.md                # Tài liệu hướng dẫn sử dụng chi tiết
 ```
